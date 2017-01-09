@@ -13,17 +13,19 @@
           <hr class="hr-small border-round">
           <p><%= book.description %></p>
           <ul class="list-group">
-            <li class="list-group-item">Pages: <%= book.pages %></li>
-            <!-- <li class="list-group-item">Author: <%= book.auther %></li> -->
-            <!-- <li class="list-group-item">Publisher: <%= book.publisher %></li> -->
-            <li class="list-group-item">Rating: <%= book.rating %></li>
-            <li class="list-group-item">ISBN: <%= book.isbn %></li>
+            <li class="list-group-item">Pages: <strong><%= book.pages %></strong></li>
+            <!-- <li class="list-group-item">Author: <strong><%= book.auther %></strong></li> -->
+            <!-- <li class="list-group-item">Publisher: <strong><%= book.publisher %></strong></li> -->
+            <li class="list-group-item">Rating: <strong><%= book.rating %></strong></li>
+            <li class="list-group-item">ISBN: <strong><%= book.isbn %></strong></li>
+            <li class="list-group-item">Publish Date: <strong><%= book.publishDate.toDateString() %></strong></li>
           </ul>
           <div class="row">
             <div class="col-sm-12 text-right">
               <a href="" class="btn btn-success">
-                <i class="fa fa-usd" aria-hidden="true"></i> <%= book.price %></a>
-              </div>
+                <i class="fa fa-usd" aria-hidden="true"></i> <%= book.price %>
+              </a>
+            </div>
           </div>
         </div>
       </div>
