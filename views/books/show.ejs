@@ -1,0 +1,32 @@
+<% include ./../layouts/_header %>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-12 col-md-3">
+        <img src="images/default.png" alt="<%= book.title %>'s cover"
+          class="img-responsive">
+      </div>
+      <div class="col-sm-12 col-md-9">
+        <div class="well">
+          <h2 class="text-center">
+            <%= book.title %>
+          </h2>
+          <hr class="hr-small border-round">
+          <p><%= book.description %></p>
+          <ul class="list-group">
+            <li class="list-group-item">Pages: <%= book.pages %></li>
+            <!-- <li class="list-group-item">Author: <%= book.auther %></li> -->
+            <!-- <li class="list-group-item">Publisher: <%= book.publisher %></li> -->
+            <li class="list-group-item">Rating: <%= book.rating %></li>
+            <li class="list-group-item">ISBN: <%= book.isbn %></li>
+          </ul>
+          <div class="row">
+            <div class="col-sm-12 text-right">
+              <a href="" class="btn btn-success">
+                <i class="fa fa-usd" aria-hidden="true"></i> <%= book.price %></a>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% include ./../layouts/_footer %>

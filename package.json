@@ -1,0 +1,42 @@
+{
+  "name": "buchhandlung",
+  "version": "0.0.1",
+  "private": true,
+  "description": "showcase/sample web-app using node-express, mongodb-mongoose, and maybe i'll also implement angular-2;",
+  "main": "app.js",
+  "keywords": [
+    "e-commerce",
+    "sample",
+    "app",
+    "node",
+    "express",
+    "mongoose",
+    "bookstore"
+  ],
+  "author": "nrajan",
+  "license": "ISC",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "body-parser": "~1.15.2",
+    "connect": "^3.5.0",
+    "connect-flash": "^0.1.1",
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.2.0",
+    "ejs": "~2.5.2",
+    "express": "~4.14.0",
+    "express-sanitizer": "^1.0.1",
+    "express-session": "^1.14.2",
+    "faker": "^3.1.0",
+    "file-stream-rotator": "0.0.7",
+    "method-override": "^2.3.7",
+    "mongoose": "^4.7.6",
+    "morgan": "~1.7.0",
+    "node-sass-middleware": "0.9.8",
+    "nodemailer": "^2.7.0",
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0",
+    "serve-favicon": "~2.3.0"
+  }
+}

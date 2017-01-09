@@ -1,0 +1,49 @@
+<% include ./../layouts/_header %>
+<div class="container">
+  <div class="jumbotron">
+    <h1 class="page-header">
+      <i class="fa fa-fire" aria-hidden="true"></i> buchhandlung
+    </h1>
+    <h3>some promotion stuff goes here</h3>
+  </div>
+</div>
+
+<div class="container">
+  <% if(books && books.length > 0) {%>
+    <div class="row">
+      <% for(let i=0; i < books.length; i++) { %>
+        <% if (i !== 0 && i % 4 === 0) { %>
+          </div>
+          <div class="row">
+        <% } %>
+          <div class="col-sm-3">
+            <img src="images/default.png" alt="" class="img-full-width">
+            <div class="container-fluid no-padding">
+              <div class="row">
+                <div class="col-sm-12">
+                  <h3><%= books[i].title %></h3>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-12">
+                  <p class="subtitle"><%= books[i].descriptionShort() %></p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-12">
+                  <a href="/books/<%= books[i].id%>" class="btn btn-info btn-block"> more...</a>
+                </div>
+              </div>
+            </div>
+          </div>
+      <% } %>
+    </div>
+  <% } else { %>
+    <h1 class="text-info">Oopps...</h1>
+    <h4>
+      it seems we are under maintenance for the moment
+    </h4>
+  <% } %>
+</div>
+
+<% include ./../layouts/_footer %>

@@ -1,0 +1,71 @@
+
+.bs-callout {
+  padding: 20px;
+  margin: 20px 0;
+  border: 1px solid #eee;
+  border-left-width: 5px;
+  border-radius: 3px;
+
+  h4 {
+    margin-top: 0;
+    margin-bottom: 5px;
+  }
+
+  p:last-child {
+    margin-bottom: 0;
+  }
+
+  code {
+    border-radius: 3px;
+  }
+}
+
+.bs-callout+.bs-callout {
+  margin-top: -5px;
+}
+.bs-callout-default {
+  border-left-color: #7b8a8b;
+
+  h4 {
+    color: #7b8a8b;
+  }
+}
+
+.bs-callout-primary {
+  border-left-color: #2C3E50;
+
+  h4 {
+    color: #2C3E50;
+  }
+}
+
+.bs-callout-success {
+  border-left-color: #18BC9C;
+
+  h4 {
+    color: #18BC9C;
+  }
+}
+
+.bs-callout-danger {
+  border-left-color: #E74C3C;
+
+  h4 {
+    color: #E74C3C;
+  }
+}
+
+.bs-callout-warning {
+  border-left-color: #F39C12;
+
+  h4 {
+    color: #F39C12;
+  }
+}
+.bs-callout-info {
+  border-left-color: #3498DB;
+
+  h4 {
+    color: #3498DB;
+  }
+}
