@@ -53,10 +53,10 @@ router.get('/:id', function (req, res) {
       console.log(err);
       req.flash("error", err.message);
       res.redirect("back");
-    } else if (foundBook === null) {
-      console.log("book not found: " + req.params.id);
-      req.flash("error", "The book you are searching is not found");
-      res.redirect("back");
+    // } else if (foundBook === null) {
+      // console.log("book not found: " + req.params.id);
+      // req.flash("error", "The book you are searching is not found");
+      // res.redirect("back");
     } else {
       res.render("books/show", { book: foundBook});
     }

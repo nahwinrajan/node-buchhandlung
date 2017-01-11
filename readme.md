@@ -1,12 +1,24 @@
 #Node - Bookstore
-a commerce showcase app.
+buchhandlung mean bookstore in German. (well that is what google translate tell me :P)
 
-## Package used:
-- Node / Express
+###a showcase app, showcasing capability in following skills:
+- Node.JS / Express.JS
 - MongoDB / Mongoose
-- Test Driven Development
-- RESTful
--
+- Nodemailer (mailing system with Node.JS, for purchase receipt, reset password, etc)
+- Passport   (local, Facebook, and Twitter Strategy)
+- Integration with AWS for file storage
+- Deployment to Heroku
+- RESTful API/site
+- Payment system using Stripe
+- Middleware
+- Automated testing
+- Produce PDF and email for purchases
+- AJAX Implementation
+
+###What are out of scope
+- CMS for adding books / delete / update
+- Admin panel
+- Integration with FrontEnd Framework like Angular, React
 
 ## MVP - minimum viable product
 - admin can create new book listing with image for cover uploaded from admin computer
@@ -20,7 +32,6 @@ a commerce showcase app.
   - anyone can see all book listing + book details
   - admin must be authenticated
 - user can purchase book + prompted for payment with stripe (dummy charge)
--
 
 ## Database Structure
 

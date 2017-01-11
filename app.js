@@ -8,27 +8,32 @@ var express         = require('express'),
     expressSanitizer= require('express-sanitizer'),
     bodyParser      = require('body-parser'),
     cookieParser    = require('cookie-parser'),
-    passport        = require('passport'),
-    localStrategy   = require('passport-local').Strategy,
     expressSession  = require('express-session'),
+    passport        = require('passport');
     favicon         = require('serve-favicon'),
     flash           = require('connect-flash'),
     FileStreamRotator= require('file-stream-rotator'),
     fs              = require('fs'),
+    helmet         = require('helmet'),
     seedDB          = require('./seeds');
 
 // variables - models
+var Book        = require('./models/book'),
+    User        = require('./models/user');
 
 // variables - routes
-var   IndexRoutes           = require("./routes/index"),
-      BookRoutes            = require("./routes/books");
+var IndexRoutes           = require("./routes/index"),
+    BookRoutes            = require("./routes/books"),
+    UserRoutes            = require("./routes/users");
 
 // variables - others
-var logDirectory = path.join(__dirname, 'logs');
+var logDirectory  = path.join(__dirname, 'logs');
+
 
 // app configuration
 app.set("view engine", "ejs");
 app.use(morgan('dev'));
+app.use(helmet());    // protect from some well know http vulnerability by setting approriate header
 app.use(require('node-sass-middleware')({
   src: path.join(__dirname, '/scss'),
   dest: path.join(__dirname, '/public'),
@@ -40,24 +45,23 @@ app.use(require('node-sass-middleware')({
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(methodOverride('_method'));
-app.use(expressSanitizer());
+app.use(expressSanitizer()); //sanitize user's html encoding inputpr
 app.use(expressSession({
-  secret: "Dies ist das Geheimnis, das verwendet wird, um das Sitzungs-ID-Cookie zu signieren. Dies kann entweder ein String für ein einzelnes Geheimnis oder ein Array mit mehreren Geheimnissen sein",
+  secret: process.env.SESSION_SECRET,
   resave: false,               //don't kept saving session on server
   saveUninitialized: false    //do not save session that has nothing in it
 }));
 app.use(flash());
 
 // db - configuration
-mongoose.connect("mongodb://localhost/buchhandlung");
+let dbUrl = process.env.DBURL || "mongodb://localhost/buchhandlung";
+mongoose.connect(dbUrl);
 // seedDB();
 
 // passport - authentication
-// app.use(passport.initialize());
-// app.use(passport.session());
-// passport.use(User.createStrategy());
-// passport.serializeUser(User.serializeUser());
-// passport.deserializeUser(User.deserializeUser());
+app.use(passport.initialize());
+app.use(passport.session());
+require('./config/passport');
 
 // log - configuration
 fs.existsSync(logDirectory) || fs.mkdirSync(logDirectory);  // ensure log directory exists
@@ -85,7 +89,51 @@ app.use(function(req, res, next) {
 // ====== ROUTES ======
 app.use('/',      IndexRoutes);
 app.use('/books', BookRoutes);
+app.use(UserRoutes);
 
-app.listen(3000, () => {
-  console.log("Server is up and running...");
+// Since this is the last non-error-handling
+// middleware use()d, we assume 404, as nothing else
+// responded.
+app.use(function(req, res, next) {
+  res.status(404);
+  res.render('404', { url: req.url });
+  return;
+  // respond with html page
+  // if (req.accepts('html')) {
+  //   res.render('404', { url: req.url });
+  //   return;
+  // }
+  //
+  // // respond with json
+  // if (req.accepts('json')) {
+  //   res.send({ error: 'Not found' });
+  //   return;
+  // }
+  //
+  // // default to plain-text. send()
+  // res.type('txt').send('Not found');
 });
+
+// development error handler
+// will print stacktrace
+if (app.get('env') === 'development') {
+  app.use(function(err, req, res, next) {
+    res.status(err.status || 500);
+    res.render('500', {
+      message: err.message,
+      error: err
+    });
+  });
+}
+
+// production error handler
+// no stacktraces leaked to user
+app.use(function(err, req, res, next) {
+  res.status(err.status || 500);
+  res.render('500', {
+    message: err.message,
+    error: {}
+  });
+});
+
+module.exports = app;

@@ -1,0 +1,91 @@
+var passport        = require('passport'),
+    localStrategy   = require('passport-local').Strategy;
+
+// variables - models
+var User        = require('../models/user');
+
+passport.serializeUser(function (user, done) {
+  done(null, user.id);
+});
+
+passport.deserializeUser(function (id, done) {
+  User.findById(id, function(err, user) {
+    done(err, user);
+  });
+});
+
+passport.use('local.signup', new localStrategy({
+    usernameField: 'email',
+    passwordField: 'password',
+    passReqToCallback: true   // so we have access to request object
+  }, function(req, email, password, done) {
+    console.log("----------------------------");
+    console.log('authenticate.signup called');
+    console.log('username: ' + req.body.name);
+    console.log('email: ' + email);
+    console.log('password: ' + password);
+
+    User.findOne({ 'email': email}, function(err, user) {
+      if(err) {
+        return done(err);
+      }
+
+      if(user) {
+        req.flash("error", "Email already registered, please use forgot password to reset your password");
+        return done(null, false);
+      }
+
+      let newUser = new User({
+        name      : req.body.name,
+        email     : email
+      });
+      newUser.password  = newUser.encryptPassword(password);
+      newUser.save(function(err, createdUser) {
+        if(err) {
+          return done(err);
+        }
+
+        console.log('User created: ' + createdUser.email);
+        return done(null, createdUser);
+      });
+    });
+  }
+));
+
+passport.use('local.signin', new localStrategy({
+    usernameField: 'email',
+    passwordField: 'password',
+    passReqToCallback: true
+  }, function(req, email, password, done) {
+    //  ---** form validation **---
+    // req.checkBody('email', 'Invalid email').notEmpty().isEmail();
+    // req.checkBody('password', 'Invalid password').notEmpty().isLength({min: 6});
+
+    // let errors = req.validationErrors();
+    // if (errors) {
+    //   let errMsg = [];
+    //   errors.forEach(function(err) {
+    //     errMsg.push(err.msg);
+    //   });
+    //   return done(null, false, req.flash('error', errMsg));
+    // }
+
+    User.findOne({ 'email': email}, function(err, user) {
+      if(err) {
+        return done(err);
+      }
+
+      // avoid giving away user's email to hijackers
+      if(!user) {
+        req.flash("error", "Invalid username or password");
+        return done();
+      }
+
+      if(!user.comparePassword(password)) {
+        return done(null, false, {message: "Invalid username or password"});
+      }
+
+      return done(null, user);
+    });
+  }
+));

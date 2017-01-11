@@ -1,0 +1,38 @@
+<% include ./../layouts/_header %>
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm-8 col-sm-offset-2">
+      <h1 class="text-center">Welcome Back !!</h1>
+      <hr>
+      <div class="panel">
+        <div class="panel-body">
+          <form action="/users/signin" method="POST">
+            <input type="hidden" name="_csrf" value="<%= csrf %>">
+            <div class="form-group">
+              <input type="email" autofocus placeholder="Email Address"
+                name="email" id="user_email" class="form-control">
+            </div>
+            <div class="form-group">
+              <input type="password" placeholder="Password"
+                name="password" id="user_password" class="form-control">
+            </div>
+            <div class="form-group">
+              <button class="btn btn-success btn-block" type="submit"
+                data-disable-with="<i class='fa fa-spinner fa-spin'></i>
+                Signing in...">Sign In
+              </button>
+            </div>
+          </form>
+          <div class="text-center">
+            <p>
+              <a href="/users/signup" class="text-muted">Create an Account</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<% include ./../layouts/_footer %>

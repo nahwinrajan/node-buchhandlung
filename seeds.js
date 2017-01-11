@@ -1,7 +1,8 @@
 let mongoose      = require("mongoose");
 let faker         = require("faker");
 
-let Book    = require("./models/book");
+let Book    = require("./models/book"),
+    User    = require("./models/user");
 
 function seedDB() {
   Book.remove({}, (err) => {
@@ -12,7 +13,7 @@ function seedDB() {
     }
   });
 
-  for(let i=0; i < 101; i++) {
+  for(let i=0; i < 10; i++) {
     Book.create({
       title: faker.name.title(),
       description: faker.lorem.paragraphs(),
@@ -25,6 +26,38 @@ function seedDB() {
   }
 
   console.log("Book Collection - populated");
+
+  User.remove({}, (err) => {
+    if (err) {
+      console.log("seedDB encountered some error: \n" + err.message + "\n\n" + err.stack);
+    } else {
+      console.log("User Collection - cleaned up");
+    }
+  });
+
+  let sherlock = new User({
+    name: "Sherlock Holmes",
+    email: "sherlock@example.com"
+  });
+  sherlock.password = sherlock.encryptPassword("password");
+  sherlock.save();
+
+  let albus = new User({
+    name: "Albus Dumbledore",
+    email: "albus@example.com"
+  });
+  albus.password = albus.encryptPassword("password");
+  albus.save();
+
+  let nikolas = new User({
+    name: "Nikolas Tesla",
+    email: "nikolas@example.com"
+  });
+  nikolas.password = nikolas.encryptPassword("password");
+  nikolas.save();
+
+
+  console.log('---- seeding done ----');
 }
 
 module.exports = seedDB;
