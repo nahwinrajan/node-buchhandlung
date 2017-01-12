@@ -9,8 +9,7 @@ var bookSchema = mongoose.Schema({
   },
   description: {
     type: String,
-    required: true,
-    minLength: 1
+    required: true
   },
   rating: {
     type: Number,
@@ -85,5 +84,9 @@ bookSchema.statics.findByISBN = function(isbn, cb) {
 bookSchema.methods.descriptionShort = function() {
   return this.description.substring(0, 100);
 };
+
+bookSchema.methods.publishDateShort = function() {
+  return this.publishDate.toISOString().substring(0, 10);
+}
 
 module.exports = mongoose.model("Book", bookSchema);

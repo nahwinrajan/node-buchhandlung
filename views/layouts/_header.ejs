@@ -17,12 +17,24 @@
 
     <% if(error && error.length > 0) { %>
       <div class="container">
+      <% if(Array.isArray(error)) { %>
+        <% error.forEach(function(err) { %>
+            <div class="alert alert-danger alert-dismissable fade in" role="alert">
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+              <p><%- err %></p>
+            </div>
+          </div>
+        <% }) %>
+      <% } else { %>
         <div class="alert alert-danger alert-dismissable fade in" role="alert">
           <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
           <p><%- error %></p>
         </div>
+      <% } %>
       </div>
     <% } else if(success && success.length > 0) { %>
       <div class="container">

@@ -3,6 +3,16 @@
 <div class="container">
   <div class="row">
     <div class="col-sm-8 col-sm-offset-2">
+      <div class="well">
+        <p>
+          In real world app, this page must be within the CMS / Admin panel.
+          It here for demonstrating CRUD and RESTful routes
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-8 col-sm-offset-2">
       <h2 class="text-center">Create new Book listing</h2>
       <hr>
     </div>
@@ -13,19 +23,19 @@
         <form action="/books" method="POST">
           <div class="form-group">
             <label for="title">Title</label>
-            <input type="text" name="book[title]" id="title"
+            <input type="text" name="book[title]" id="title" required
              class="form-control" placeholder="book's title">
           </div>
           <div class="form-group">
             <label for="description">Description</label>
             <textarea class="form-control" name="book[description]"
-            rows="5" id="description"></textarea>
+            rows="5" id="description" required></textarea>
             <span class="help-block">compelling description of the book for prospective buyer</span>
           </div>
           <div class="form-group">
             <label for="pageCount">Page Count</label>
             <input type="number" name="book[pages]" id="pageCount" min="1" step="1"
-            class="form-control" placeholder="book's page count">
+            class="form-control" placeholder="book's page count" required>
           </div>
           <div class="form-group">
             <label for="publishDate">Publish Date</label>
@@ -35,7 +45,8 @@
           <div class="form-group">
             <label for="isbn">ISBN</label>
             <input type="number" incre name="book[isbn]" id="rating" class="form-control"
-            placeholder="book's  ISBN code" min="1000000000000" max="9999999999999">
+            placeholder="book's  ISBN code" min="1000000000000" max="9999999999999"
+            required>
           </div>
           <div class="form-group">
             <label for="rating">Rating</label>
@@ -45,7 +56,7 @@
           <div class="form-group">
             <label for="price">Price</label>
             <input type="number" name="book[price]" id="price"  class="form-control"
-            placeholder="sell price" min="0" step="0.01">
+            placeholder="sell price" min="0" step="0.01" required>
           </div>
           <div class="form-group">
             <label for="author">Author Name</label>

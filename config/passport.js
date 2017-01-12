@@ -19,11 +19,19 @@ passport.use('local.signup', new localStrategy({
     passwordField: 'password',
     passReqToCallback: true   // so we have access to request object
   }, function(req, email, password, done) {
-    console.log("----------------------------");
-    console.log('authenticate.signup called');
-    console.log('username: ' + req.body.name);
-    console.log('email: ' + email);
-    console.log('password: ' + password);
+    //  ---** form validation **---
+    req.checkBody('name', 'Invalid name').notEmpty().isLength({min: 1});
+    req.checkBody('email', 'Invalid email').notEmpty().isEmail();
+    req.checkBody('password', 'Invalid password').notEmpty().isLength({min:6});
+
+    let errors = req.validationErrors();
+    if (errors) {
+      let msg = [];
+      errors.forEach(function(error) {
+        message.push(err.msg);
+      });
+      done(null, false, req.flash("error", msg));
+    }
 
     User.findOne({ 'email': email}, function(err, user) {
       if(err) {
@@ -58,17 +66,17 @@ passport.use('local.signin', new localStrategy({
     passReqToCallback: true
   }, function(req, email, password, done) {
     //  ---** form validation **---
-    // req.checkBody('email', 'Invalid email').notEmpty().isEmail();
-    // req.checkBody('password', 'Invalid password').notEmpty().isLength({min: 6});
+    req.checkBody('email', 'Invalid email').notEmpty().isEmail();
+    req.checkBody('password', 'Invalid password').notEmpty();
 
-    // let errors = req.validationErrors();
-    // if (errors) {
-    //   let errMsg = [];
-    //   errors.forEach(function(err) {
-    //     errMsg.push(err.msg);
-    //   });
-    //   return done(null, false, req.flash('error', errMsg));
-    // }
+    let errors = req.validationErrors();
+    if (errors) {
+      let msg = [];
+      errors.forEach(function(error) {
+        message.push(err.msg);
+      });
+      done(null, false, req.flash("error", msg));
+    }
 
     User.findOne({ 'email': email}, function(err, user) {
       if(err) {

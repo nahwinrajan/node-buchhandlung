@@ -12,6 +12,7 @@ var express         = require('express'),
     passport        = require('passport');
     favicon         = require('serve-favicon'),
     flash           = require('connect-flash'),
+    validator      = require('express-validator'),
     FileStreamRotator= require('file-stream-rotator'),
     fs              = require('fs'),
     helmet         = require('helmet'),
@@ -32,6 +33,8 @@ var logDirectory  = path.join(__dirname, 'logs');
 
 // app configuration
 app.set("view engine", "ejs");
+// uncomment after placing your favicon in /public
+//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(morgan('dev'));
 app.use(helmet());    // protect from some well know http vulnerability by setting approriate header
 app.use(require('node-sass-middleware')({
@@ -45,6 +48,7 @@ app.use(require('node-sass-middleware')({
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(methodOverride('_method'));
+app.use(validator());
 app.use(expressSanitizer()); //sanitize user's html encoding inputpr
 app.use(expressSession({
   secret: process.env.SESSION_SECRET,
@@ -96,22 +100,21 @@ app.use(UserRoutes);
 // responded.
 app.use(function(req, res, next) {
   res.status(404);
-  res.render('404', { url: req.url });
-  return;
+
   // respond with html page
-  // if (req.accepts('html')) {
-  //   res.render('404', { url: req.url });
-  //   return;
-  // }
-  //
-  // // respond with json
-  // if (req.accepts('json')) {
-  //   res.send({ error: 'Not found' });
-  //   return;
-  // }
-  //
-  // // default to plain-text. send()
-  // res.type('txt').send('Not found');
+  if (req.accepts('html')) {
+    res.render('404', { url: req.url });
+    return;
+  }
+
+  // respond with json
+  if (req.accepts('json')) {
+    res.send({ error: 'Not found' });
+    return;
+  }
+
+  // default to plain-text. send()
+  res.type('txt').send('Not found');
 });
 
 // development error handler
