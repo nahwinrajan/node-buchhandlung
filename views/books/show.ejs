@@ -22,8 +22,9 @@
           </ul>
           <div class="row">
             <div class="col-sm-12 text-right">
-              <a href="" class="btn btn-success">
-                <i class="fa fa-usd" aria-hidden="true"></i> <%= book.price %>
+              <a href="/addtocart/<%= book.id %>?origin=/books/<%= book.id %>" data-id="<%= book.id %>"
+                class="btn btn-success" name="btn-add-to-cart">
+                  <i class="fa fa-cart-plus" aria-hidden="true"></i> <%= book.price %>
               </a>
             </div>
           </div>
@@ -31,4 +32,5 @@
       </div>
     </div>
   </div>
+
 <% include ./../layouts/_footer %>

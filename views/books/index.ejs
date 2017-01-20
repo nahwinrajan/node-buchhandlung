@@ -31,7 +31,14 @@
                 </div>
               </div>
               <div class="row">
-                <div class="col-sm-12">
+                <div class="col-sm-6">
+                  <a href="/addtocart/<%= books[i].id%>?origin=/books"
+                  class="btn btn-success btn-block" data-id="<%= books[i].id%>"
+                  name="btn-add-to-cart">
+                    <i class="fa fa-cart-plus" aria-hidden="true"></i><%= books[i].price %>
+                  </a>
+                </div>
+                <div class="col-sm-6">
                   <a href="/books/<%= books[i].id%>" class="btn btn-info btn-block"> more...</a>
                 </div>
               </div>

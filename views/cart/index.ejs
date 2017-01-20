@@ -1,0 +1,73 @@
+<% include ./../layouts/_header %>
+
+<div class="container">
+  <div class="row">
+    <% if (items && items.length > 0) { %>
+      <table class="table table-striped" width="100%">
+        <col style="width:10%">
+        <col style="width:30%">
+        <col style="width:20%">
+        <col style="width:20%">
+        <col style="width:20%">
+        <thead>
+          <tr class="text-left">
+            <th>#</th>
+            <th class="text-left">Title</th>
+            <th class="text-right">Quantity</th>
+            <th class="text-right">Subtotal</th>
+            <th>&nbsp;</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% items.forEach((item, index) => { %>
+            <tr>
+              <td class="text-left">
+                <%= ++index %>
+              </td>
+              <td class="text-left">
+                <a href="/books/<%= item._id %>"><%= item.title %></a>
+              </td>
+              <td class="text-right">
+                <strong> <%= item.qty %> </strong>
+              </td>
+              <td class="text-right">
+                <strong>$ <%= item.subTotal %> </strong>
+              </td>
+              <td>
+                <% if(item.qty > 1) { %>
+                  <a href="/reducefromcart/<%= item._id %>?origin=/cart" class="text-warning">
+                    <i class="fa fa-minus" aria-hidden="true"></i>
+                  </a>
+                <% } %>
+                <a href="/removefromcart/<%= item._id %>?origin=/cart" class="text-danger">
+                  <i class="fa fa-times" aria-hidden="true"></i>
+                </a>
+              </td>
+            </tr>
+          <% }); %>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td class="text-right"><strong>Total</strong></td>
+            <td class="text-right"><strong>$ <%= totalPrice %></strong></td>
+            <td>&nbsp;</td>
+          </tr>
+        </tfoot>
+      </table>
+    <% } else { %>
+      <h3 class="page-header text-center">
+        No items in cart...
+      </h3>
+      <hr/>
+    <% } %>
+  </div>
+  <% if (items && items.length > 0) { %>
+    <div class="row pull-right">
+      <a href="/checkout" class="btn btn-success">Check out</a>
+    </div>
+  <% } %>
+</div>
+
+<% include ./../layouts/_footer %>

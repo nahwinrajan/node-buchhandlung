@@ -9,13 +9,14 @@ var express         = require('express'),
     bodyParser      = require('body-parser'),
     cookieParser    = require('cookie-parser'),
     expressSession  = require('express-session'),
-    passport        = require('passport');
-    favicon         = require('serve-favicon'),
+    mongoStore      = require('connect-mongo')(expressSession);
+    passport        = require('passport'),
     flash           = require('connect-flash'),
-    validator      = require('express-validator'),
+    validator       = require('express-validator'),
     FileStreamRotator= require('file-stream-rotator'),
     fs              = require('fs'),
-    helmet         = require('helmet'),
+    favicon         = require('serve-favicon');
+    helmet          = require('helmet'),
     seedDB          = require('./seeds');
 
 // variables - models
@@ -33,8 +34,8 @@ var logDirectory  = path.join(__dirname, 'logs');
 
 // app configuration
 app.set("view engine", "ejs");
-// uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+
+app.use(favicon(__dirname + '/public/images/favicon.ico'))
 app.use(morgan('dev'));
 app.use(helmet());    // protect from some well know http vulnerability by setting approriate header
 app.use(require('node-sass-middleware')({
@@ -51,9 +52,11 @@ app.use(methodOverride('_method'));
 app.use(validator());
 app.use(expressSanitizer()); //sanitize user's html encoding inputpr
 app.use(expressSession({
-  secret: process.env.SESSION_SECRET,
+  secret: "My awesome über secret secret session key",
   resave: false,               //don't kept saving session on server
-  saveUninitialized: false    //do not save session that has nothing in it
+  saveUninitialized: false,    //do not save session that has nothing in it
+  store:  new mongoStore( { mongooseConnection: mongoose.connection } ),
+  cookie: { maxAge: 60 * 60 * 1000 }
 }));
 app.use(flash());
 
@@ -79,11 +82,12 @@ var accessLogStream = FileStreamRotator.getStream({
 // setup the logger
 app.use(morgan('combined', {stream: accessLogStream}))
 
-//set up local variable
+//set up local variables for every view
 app.use(function(req, res, next) {
   // req.user is property set by passport
   // req.locals.variableName => this how we set local variable on view for the route
   res.locals.currentUser  = req.user;
+  res.locals.cart         = req.session.cart;
   // add flash message into local variable in response
   res.locals.error        = req.flash("error");
   res.locals.success      = req.flash("success");
