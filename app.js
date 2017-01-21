@@ -17,6 +17,7 @@ var express         = require('express'),
     fs              = require('fs'),
     favicon         = require('serve-favicon');
     helmet          = require('helmet'),
+    csrf            = require('csurf'),
     seedDB          = require('./seeds');
 
 // variables - models
@@ -52,13 +53,15 @@ app.use(methodOverride('_method'));
 app.use(validator());
 app.use(expressSanitizer()); //sanitize user's html encoding inputpr
 app.use(expressSession({
-  secret: "My awesome über secret secret session key",
+  secret: "some secret password for session",
   resave: false,               //don't kept saving session on server
   saveUninitialized: false,    //do not save session that has nothing in it
   store:  new mongoStore( { mongooseConnection: mongoose.connection } ),
   cookie: { maxAge: 60 * 60 * 1000 }
 }));
 app.use(flash());
+//csurf relies on cookie/express-session therefore use it after initializing session middleware
+app.use(csrf());
 
 // db - configuration
 let dbUrl = process.env.DBURL || "mongodb://localhost/buchhandlung";
@@ -88,6 +91,7 @@ app.use(function(req, res, next) {
   // req.locals.variableName => this how we set local variable on view for the route
   res.locals.currentUser  = req.user;
   res.locals.cart         = req.session.cart;
+
   // add flash message into local variable in response
   res.locals.error        = req.flash("error");
   res.locals.success      = req.flash("success");
@@ -97,7 +101,7 @@ app.use(function(req, res, next) {
 // ====== ROUTES ======
 app.use('/',      IndexRoutes);
 app.use('/books', BookRoutes);
-app.use(UserRoutes);
+app.use('/users', UserRoutes);
 
 // Since this is the last non-error-handling
 // middleware use()d, we assume 404, as nothing else

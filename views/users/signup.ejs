@@ -37,7 +37,7 @@
                 name="password" id="password" class="form-control" required
                 pattern="[A-Za-z0-9]{6,}" title="password must be at least 6 characters long of alphanumeric">
               <input type="checkbox" id="checkbox-unmask-pw"
-              onchange="togglePasswordMask()">
+              onchange="togglePasswordMask()" style="margin-top: 20px;padding: 10px 20px;">
               <label for="checkbox-unmask-pw">Show Password</label>
             </div>
             <div class="form-group">
@@ -48,7 +48,7 @@
             </div>
           </form>
           <div class="text-center">
-            <p class="text-muted">
+            <p>
               Already have an account ?
               <a href="/users/signin" class="text-success">Sign In</a>
             </p>

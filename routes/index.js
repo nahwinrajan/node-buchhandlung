@@ -5,6 +5,9 @@ var express = require('express'),
 var Book = require("./../models/book"),
     Cart = require("./../models/cart");
 
+// variables - middleware
+var middlewareObj = require("./../middlewares")
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.redirect('/books');
@@ -60,5 +63,19 @@ router.get('/cart', function(req, res) {
   let cart = new Cart((req.session.cart) ? req.session.cart : {});
   res.render('cart/index', { items: cart.generateItemsAsArray(), totalPrice: cart.totalPrice });
 });
+
+router.get('/checkout', middlewareObj.isLoggedIn, function(req, res) {
+  if(!req.session.cart || req.session.cart.totalQty < 1) {
+    res.redirect('/books');
+  }
+
+  res.render('cart/checkout', {csrf: req.csrfToken() });
+});
+
+router.post('/checkout', middlewareObj.isLoggedIn, (req, res) => {
+  req.flash("success", "Thank you!! your order is received and under process for shipping");
+  res.redirect("/books");
+});
+
 
 module.exports = router;

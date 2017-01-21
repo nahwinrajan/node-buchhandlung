@@ -1,27 +1,27 @@
 var express         = require('express'),
     router          = express.Router(),
-    passport        = require("passport"),
-    csrf            = require('csurf'),
-    csrfProtection  = csrf();
+    passport        = require("passport");
 
 
 // variables - model
 var User = require('./../models/user');
-router.use(csrfProtection);
 
 // show register form
-router.get('/users/signup', function(req, res) {
+router.get('/signup', function(req, res) {
   res.render("users/signup", { csrf: req.csrfToken() });
 });
 
 // create
-router.post('/users/signup', passport.authenticate('local.signup', {
+router.post('/signup', passport.authenticate('local.signup', {
     failureRedirect: '/users/signup',
     failureFlash: true
   }), function(req, res, next) {
     // if we pass the authenticate middleware process for signup
     // passport will automatically signin the new user
-    res.redirect('/books');
+    var redirectTo = req.session.redirectTo ? req.session.redirectTo : '/';
+    delete req.session.redirectTo;
+
+    res.redirect(redirectTo);
   }
 );
 
@@ -32,21 +32,26 @@ router.post('/users/signup', passport.authenticate('local.signup', {
 // delete
 
 // show sign in form
-router.get('/users/signin', function(req, res) {
+router.get('/signin', function(req, res) {
   res.render("users/signin", { csrf: req.csrfToken() });
 });
 
 // sign in
-router.post('/users/signin', passport.authenticate('local.signin', {
+router.post('/signin', passport.authenticate('local.signin', {
     failureRedirect: '/users/signin',
     failureFlash: true
   }), function(req, res, next){
-    res.redirect('/books');
+
+    var redirectTo = req.session.redirectTo ? req.session.redirectTo : '/';
+    delete req.session.redirectTo;
+
+    res.redirect(redirectTo);
 });
 
 // sign out
-router.get('/users/signout', function (req, res) {
+router.get('/signout', function (req, res) {
   req.logout();
+  req.session.destroy();
   res.redirect('/');
 });
 

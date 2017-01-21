@@ -1,0 +1,91 @@
+<% include ./../layouts/_header %>
+
+<script type="text/javascript" src="js/checkout.js"></script>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-6 col-sm-offset-3">
+        <form action="/checkout" method="POST" id="formPayment">
+          <input type="hidden" name="_csrf" value="<%= csrf %>">
+          <legend>
+            Amount to Pay: $<strong><%= cart.totalPrice %></strong>
+          </legend>
+          <div id="payment-errors" class="alert alert-danger hidden">
+            {{errMsg}}
+          </div>
+          <div class="form-group">
+            <label>Name on Card</label>
+            <input type="text" data-stripe="name" size="20"
+            class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label>Card Number</label>
+            <input type="text" data-stripe="number" size="20"
+            class="form-control" required>
+          </div>
+          <div class="row">
+            <div class="col-xs-8">
+              <div class="form-group">
+                <label>Expiration (MM/YY)</label>
+                <div class="row">
+                  <div class="col-xs-6">
+                    <input type="text" data-stripe="exp_month" size="2" maxlength="2"
+                    class="form-control" required placeholder="MM">
+                  </div>
+                  <div class="col-xs-6">
+                    <input type="number" data-stripe="exp_year" size="2" maxlength="2"
+                    class="form-control" required placeholder="YY">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-xs-4">
+              <div class="form-group">
+                <label>CVC</label>
+                <input type="text" data-stripe="cvc" size="3" class="form-control"
+                required placeholder="CVC" maxlength="3">
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Address Line #1</label>
+            <input type="text" data-stripe="address_line1" class="form-control"
+            required>
+          </div>
+          <div class="form-group">
+            <label>Address Line #2</label>
+            <input type="text" data-stripe="address_line2" class="form-control"
+            required>
+          </div>
+          <div class="row">
+            <div class="col-sm-4">
+              <div class="form-group">
+                <label>City</label>
+                <input type="text" data-stripe="address_city" class="form-control"
+                required>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="form-group">
+                <label>Country</label>
+                <input type="text" data-stripe="country" class="form-control"
+                required>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="form-group">
+                <label>ZIP Code</label>
+                <input type="text" data-stripe="address_zip" size="6" required
+                class="form-control" maxlength="6">
+              </div>
+            </div>
+          </div>
+          <input type="submit" value="Submit Payment" id="btnSubmit"
+          class="btn btn-success btn-block">
+        </form>
+      </div>
+    </div>
+  </div>
+
+<script type="text/javascript" src="js/checkout.js"></script>
+<% include ./../layouts/_footer %>

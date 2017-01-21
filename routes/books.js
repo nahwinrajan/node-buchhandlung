@@ -14,7 +14,7 @@ router.get('/', function(req, res) {
   Book.all(function (err, foundBooks) {
     if (err) {
       console.log(err);
-      res.redirect("back");
+      res.render("404");
     } else {
       res.render('books/index', { books: foundBooks });
     }

@@ -17,7 +17,8 @@
   "license": "ISC",
   "scripts": {
     "start": "node ./bin/www",
-    "test": "make test"
+    "test": "make test",
+    "debug": "DEBUG=express* node ./bin/www"
   },
   "dependencies": {
     "bcryptjs": "^2.4.0",
