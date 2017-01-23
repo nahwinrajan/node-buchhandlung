@@ -4,34 +4,40 @@ buchhandlung mean bookstore in German. (well that is what google translate tell 
 ###a showcase app, showcasing capability in following skills:
 - Node.JS / Express.JS
 - MongoDB / Mongoose
-- Nodemailer (mailing system with Node.JS, for purchase receipt, reset password, etc)
 - Passport   (local, Facebook, and Twitter Strategy)
-- Integration with AWS for file storage
-- Deployment to Heroku
 - RESTful API/site
 - Payment system using Stripe
 - Middleware
-- Automated testing
+- Integration with AWS for file storage
+  - Book Cover image
+- Nodemailer
+  - email verification
+  - password reset
+  - receipt
+- Deployment to Heroku
 - Produce PDF and email for purchases
-- AJAX Implementation
+- Automated testing
 
 ###What are out of scope
 - CMS for adding books / delete / update
 - Admin panel
 - Integration with FrontEnd Framework like Angular, React
+- Fail Safe / Consolidation Mechanism for failure payment
+  - error with createCharge on Stripe
+  - Insert / Update Order in DB
 
 ## MVP - minimum viable product
-- admin can create new book listing with image for cover uploaded from admin computer
-  - separate page for admin management
-  - add / update / delete book
-  - add / update / delete category
-  - add / update / delete author
-  - add / update / delete publisher
 - there is working authentication system (signin, signup, signout)
   - only authenticated user can purchase book
   - anyone can see all book listing + book details
-  - admin must be authenticated
-- user can purchase book + prompted for payment with stripe (dummy charge)
+  - email authentication
+  - email dummy receipt to user
+  - user can change name
+- user can purchase book
+  - add to cart
+  - checkout from cart - charge user with stripe payment gateway
+  - user can see transaction history
+
 
 ## Database Structure
 

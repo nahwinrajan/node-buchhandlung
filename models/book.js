@@ -3,6 +3,7 @@ var mongoose = require('mongoose');
 var bookSchema = mongoose.Schema({
   title: {
     type: String,
+    index: true,
     required: true,
     maxLength: 250,
     minLength: 1
@@ -29,6 +30,7 @@ var bookSchema = mongoose.Schema({
   publishDate: Date,
   isbn: {
     type: String,
+    index: true,
     required: true,
     maxLength: [13, 'ISBN number must be exactly 13 characters of number'],
     minLength: [13, 'ISBN number must be exactly 13 characters of number']
@@ -56,25 +58,32 @@ bookSchema.pre('save', function(next) {
 });
 
 bookSchema.pre('update', function(next) {
-  this.update({},{ $set: { updatedAt: new Date() } });
+  this.updated_at = new Date();
+  next();
 });
 
 
 // schema methods
 bookSchema.statics.all = function(cb) {
+  if (arguments.length < 1 || typeof cb !== 'function') {
+    return cb(new Error('Invalid arguments given'));
+  }
+
   return this.find({}, cb);
 };
 
-bookSchema.statics.findByTitle = function(title, cb) {
-  if (title === undefined || title === '' || typeof isbn === 'string' || typeof cb !== 'function') {
-    cb(new Error('Invalid arguments given'));
+bookSchema.statics.findByTitle = function(titleKeyword, cb) {
+  if (arguments.length < 2 || !titleKeyword || typeof titleKeyword !== 'string'
+  || typeof cb !== 'function') {
+    return cb(new Error('Invalid arguments given'));
   }
 
-  return this.find({ title: title}, cb);
+  return this.find({ title: titleKeyword}, cb);
 };
 
-bookSchema.statics.findByISBN = function(isbn, cb) {
-  if (isbn === undefined || isbn === '' || typeof isbn === 'string' || typeof cb !== 'function') {
+bookSchema.statics.findByISBN = function(isbnKeyword, cb) {
+  if (arguments.length < 2 || !isbnKeyword || typeof isbnKeyword !== 'string' ||
+   typeof cb !== 'function') {
     cb(new Error('Invalid arguments given'));
   }
 

@@ -20,10 +20,6 @@ var express         = require('express'),
     csrf            = require('csurf'),
     seedDB          = require('./seeds');
 
-// variables - models
-var Book        = require('./models/book'),
-    User        = require('./models/user');
-
 // variables - routes
 var IndexRoutes           = require("./routes/index"),
     BookRoutes            = require("./routes/books"),

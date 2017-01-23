@@ -34,21 +34,28 @@ publisherSchema.pre('save', (next) => {
 });
 
 publisherSchema.pre('update', (next) => {
-  this.update({},{ $set: { updatedAt: new Date() } });
+  this.updated_at = new Date();
+  next();
 });
 
 
 // schema methods
 publisherSchema.statics.all = (cb) => {
+  if (arguments.length < 1 || typeof cb !== 'function') {
+    return cb(new Error('Invalid arguments given'));
+  }
+
   return this.find({}, cb);
 };
 
-publisherSchema.statics.findByName = (name, cb) => {
-  if (title === undefined || title === '' || typeof isbn === 'string' || typeof cb !== 'function') {
-    cb(new Error('Invalid arguments given'));
+publisherSchema.statics.findByName = (nameKeyword, cb) => {
+  if (arguments.length < 2 || !nameKeyword || typeof nameKeyword !== 'string' ||
+  typeof cb !== 'function') {
+    return cb(new Error('Invalid arguments given'));
   }
 
-  return this.find({ name: name}, cb);
+
+  return this.find({ name: nameKeyword}, cb);
 };
 
 

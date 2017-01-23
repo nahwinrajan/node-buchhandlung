@@ -11,9 +11,9 @@ var userSchema = mongoose.Schema({
   },
   email: {
     type: String,
+    index: true,
     required: true,
-    lowercase: true,
-    unique: true
+    lowercase: true
   },
   password: {
     type: String,
@@ -35,15 +35,17 @@ userSchema.pre('save', function(next) {
 });
 
 userSchema.pre('update', function(next) {
-  this.update({},{ $set: { updatedAt: new Date() } });
+  this.updated_at = new Date();
+  next();
 });
 
-userSchema.statics.findByEmail = function(_email, cb) {
-  if (_email === undefined || _email === '' || typeof cb !== 'function') {
-    cb(new Error('Invalid arguments given'));
+userSchema.statics.findByEmail = function(emailKeyword, cb) {
+  if (arguments.length < 2 || !emailKeyword || typeof emailKeyword !== 'string'
+  || typeof cb !== 'function') {
+    return cb(new Error('Invalid arguments given'));
   }
 
-  return this.findOne({ email: _email}, cb);
+  return this.findOne({ email: emailKeyword}, cb);
 };
 
 userSchema.methods.encryptPassword = function(_password) {
