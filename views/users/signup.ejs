@@ -23,25 +23,26 @@
             <input type="hidden" name="_csrf" value="<%= csrf %>">
             <div class="form-group">
               <label for="username">Full Name</label>
-              <input type="text" autofocus placeholder="Full Name"
-                name="name" id="username" class="form-control" required>
+              <input type="text" class="form-control" id="username" name="name"
+              placeholder="Full Name" autofocus required>
             </div>
             <div class="form-group">
               <label for="email">Email Address</label>
-              <input type="email" placeholder="Email Address"
-                name="email" id="email" class="form-control" required>
+              <input type="email" class="form-control" id="email" name="email"
+              placeholder="Email Address" required>
             </div>
             <div class="form-group">
               <label for="password">Password</label>
-              <input type="password" placeholder="Password"
-                name="password" id="password" class="form-control" required
-                pattern="[A-Za-z0-9]{6,}" title="password must be at least 6 characters long of alphanumeric">
+              <input type="password" class="form-control" id="password"
+              name="password" placeholder="Password"
+              title="password must be at least 6 characters long of alphanumeric"
+              pattern="[A-Za-z0-9]{6,}" required>
               <input type="checkbox" id="checkbox-unmask-pw"
               onchange="togglePasswordMask()" style="margin-top: 20px;padding: 10px 20px;">
               <label for="checkbox-unmask-pw">Show Password</label>
             </div>
             <div class="form-group">
-              <button class="btn btn-success btn-block" type="submit"
+              <button type="submit" class="btn btn-success btn-block"
                 data-disable-with="<i class='fa fa-spinner fa-spin'></i>
                 registering...">Register
               </button>
@@ -50,7 +51,7 @@
           <div class="text-center">
             <p>
               Already have an account ?
-              <a href="/users/signin" class="text-success">Sign In</a>
+              <a class="text-success" href="/users/signin">Sign In</a>
             </p>
           </div>
         </div>

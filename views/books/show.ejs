@@ -2,14 +2,12 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-sm-12 col-md-3">
-        <img src="/images/default.png" alt="<%= book.title %>'s cover"
-          class="img-responsive">
+        <img class="img-responsive" src="/images/default.png"
+        alt="<%= book.title %>'s cover">
       </div>
       <div class="col-sm-12 col-md-9">
         <div class="well">
-          <h2 class="text-center">
-            <%= book.title %>
-          </h2>
+          <h2 class="text-center"><%= book.title %></h2>
           <hr class="hr-small border-round">
           <p><%= book.description %></p>
           <ul class="list-group">
@@ -22,8 +20,9 @@
           </ul>
           <div class="row">
             <div class="col-sm-12 text-right">
-              <a href="/addtocart/<%= book.id %>?origin=/books/<%= book.id %>" data-id="<%= book.id %>"
-                class="btn btn-success" name="btn-add-to-cart">
+              <a class="btn btn-success" name="btn-add-to-cart"
+              data-id="<%= book.id %>"
+              href="/addtocart/<%= book.id %>?origin=/books/<%= book.id %>">
                   <i class="fa fa-cart-plus" aria-hidden="true"></i> <%= book.price %>
               </a>
             </div>

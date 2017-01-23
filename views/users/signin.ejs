@@ -10,15 +10,15 @@
           <form action="/users/signin" method="POST">
             <input type="hidden" name="_csrf" value="<%= csrf %>">
             <div class="form-group">
-              <input type="email" autofocus placeholder="Email Address"
-                name="email" id="email" class="form-control" required>
+              <input type="email" class="form-control" id="email" name="email"
+              placeholder="Email Address" autofocus required>
             </div>
             <div class="form-group">
-              <input type="password" placeholder="Password"
-                name="password" id="password" class="form-control" required>
+              <input type="password" class="form-control" id="password"
+              name="password" placeholder="Password" required>
             </div>
             <div class="form-group">
-              <button class="btn btn-success btn-block" type="submit"
+              <button type="submit" class="btn btn-success btn-block"
                 data-disable-with="<i class='fa fa-spinner fa-spin'></i>
                 Signing in...">Sign In
               </button>

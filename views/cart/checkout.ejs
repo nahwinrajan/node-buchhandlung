@@ -1,6 +1,6 @@
 <% include ./../layouts/_header %>
 
-<script type="text/javascript" src="js/checkout.js"></script>
+<script src="js/checkout.js"></script>
 
   <div class="container">
     <div class="row">
@@ -10,18 +10,18 @@
           <legend>
             Amount to Pay: $<strong><%= cart.totalPrice %></strong>
           </legend>
-          <div id="payment-errors" class="alert alert-danger hidden">
+          <div class="alert alert-danger hidden" id="payment-errors">
             {{errMsg}}
           </div>
           <div class="form-group">
             <label>Name on Card</label>
-            <input type="text" data-stripe="name" size="20"
-            class="form-control" required>
+            <input type="text" class="form-control" data-stripe="name"
+            size="20" required>
           </div>
           <div class="form-group">
             <label>Card Number</label>
-            <input type="text" data-stripe="number" size="20"
-            class="form-control" required>
+            <input type="text" class="form-control" data-stripe="number"
+            size="20" required>
           </div>
           <div class="row">
             <div class="col-xs-8">
@@ -29,12 +29,12 @@
                 <label>Expiration (MM/YY)</label>
                 <div class="row">
                   <div class="col-xs-6">
-                    <input type="text" data-stripe="exp_month" size="2" maxlength="2"
-                    class="form-control" required placeholder="MM">
+                    <input type="text" class="form-control" data-stripe="exp_month"
+                    placeholder="MM" maxlength="2" size="2" required>
                   </div>
                   <div class="col-xs-6">
-                    <input type="number" data-stripe="exp_year" size="2" maxlength="2"
-                    class="form-control" required placeholder="YY">
+                    <input type="number" class="form-control" data-stripe="exp_year"
+                    placeholder="YY" maxlength="2" size="2" required>
                   </div>
                 </div>
               </div>
@@ -42,50 +42,50 @@
             <div class="col-xs-4">
               <div class="form-group">
                 <label>CVC</label>
-                <input type="text" data-stripe="cvc" size="3" class="form-control"
-                required placeholder="CVC" maxlength="3">
+                <input type="text" class="form-control" data-stripe="cvc"
+                 placeholder="CVC" maxlength="3" size="3" required>
               </div>
             </div>
           </div>
           <div class="form-group">
             <label>Address Line #1</label>
-            <input type="text" data-stripe="address_line1" class="form-control"
+            <input type="text" class="form-control" data-stripe="address_line1"
             required>
           </div>
           <div class="form-group">
             <label>Address Line #2</label>
-            <input type="text" data-stripe="address_line2" class="form-control"
+            <input type="text" class="form-control" data-stripe="address_line2"
             required>
           </div>
           <div class="row">
             <div class="col-sm-4">
               <div class="form-group">
                 <label>City</label>
-                <input type="text" data-stripe="address_city" class="form-control"
+                <input type="text" class="form-control" data-stripe="address_city"
                 required>
               </div>
             </div>
             <div class="col-sm-4">
               <div class="form-group">
                 <label>Country</label>
-                <input type="text" data-stripe="country" class="form-control"
+                <input type="text" class="form-control" data-stripe="country"
                 required>
               </div>
             </div>
             <div class="col-sm-4">
               <div class="form-group">
                 <label>ZIP Code</label>
-                <input type="text" data-stripe="address_zip" size="6" required
-                class="form-control" maxlength="6">
+                <input type="text" class="form-control" data-stripe="address_zip"
+                maxlength="6" size="6" required>
               </div>
             </div>
           </div>
-          <input type="submit" value="Submit Payment" id="btnSubmit"
-          class="btn btn-success btn-block">
+          <input type="submit" class="btn btn-success btn-block" id="btnSubmit"
+          value="Submit Payment">
         </form>
       </div>
     </div>
   </div>
 
-<script type="text/javascript" src="js/checkout.js"></script>
+<script src="js/checkout.js"></script>
 <% include ./../layouts/_footer %>

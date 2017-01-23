@@ -1,7 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="en-us">
   <head>
     <meta charset="utf-8">
+    <%# IE compability mode, instruct IE to use the latest supported mode with edge mode%>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <title>Buchhandlung</title>
     <meta name="description" content="a bookstore commerce site - for showcasing purpose">
     <meta name="nrajan" content="bookstore">
@@ -16,8 +18,8 @@
   </head>
   <body>
     <%# as suggested by stripe documentation we are including this file site wide to take advantage of their advanced fraud functionality, %>
-    <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
-    <script type="text/javascript">
+    <script src="https://js.stripe.com/v2/"></script>
+    <script>
       Stripe.setPublishableKey('pk_test_drQKVdeYKohH6VF1nM1L9Q5e');
     </script>
 

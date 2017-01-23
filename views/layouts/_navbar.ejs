@@ -1,7 +1,8 @@
 <nav class="navbar navbar-top navbar-inverse">
   <div class="container-fluid">
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-2">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+      data-target="#bs-example-navbar-collapse-2">
         <span class="sr-only">Toggle navigation</span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
@@ -17,8 +18,10 @@
           <% if (cart) { %>
             <li>
               <a href="/cart" class="text-warning">
-                <i class="fa fa-shopping-cart" aria-hidden="true"></i> 
-                <span class="badge"><%= cart.totalQty %></span>
+                <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                <span class="badge">
+                  <%= cart.totalQty %>
+                </span>
               </a>
             </li>
           <% } %>
@@ -42,9 +45,15 @@
                 <span class="caret"></span>
               </a>
               <ul class="dropdown-menu" role="menu">
-                <li><a href="#">Profile</a></li>
-                <li><a href="#">Notification</a></li>
-                <li><a href="#">Orders</a></li>
+                <li>
+                  <a href="#">Profile</a>
+                </li>
+                <li>
+                  <a href="#">Notification</a>
+                </li>
+                <li>
+                  <a href="#">Orders</a>
+                </li>
                 <li class="divider"></li>
                 <li>
                   <a href="/users/signout">
