@@ -16,7 +16,6 @@ router.get('/', (req, res) => {
       console.log(err);
       res.render("500");
     } else {
-      console.log(`Books data: ${data}`);
       res.render('books/index', { books: data });
     }
   });
@@ -24,7 +23,7 @@ router.get('/', (req, res) => {
 
 // show new form
 router.get('/new', middlewareObj.isLoggedIn, (req, res) => {
-  res.render("books/new");
+  res.render("books/new", {csrf: req.csrfToken()} );
 });
 
 // create new book listing
@@ -65,7 +64,7 @@ router.get('/:id', (req, res) => {
       req.flash("error", err.message);
       res.redirect("back");
     } else {
-      res.render("books/show", { book: data});
+      res.render("books/show", { book: data });
     }
   });
 });
@@ -78,7 +77,7 @@ router.get('/:id/edit', middlewareObj.isLoggedIn, (req, res) => {
       req.flash("error", err.message);
       res.redirect("back");
     } else {
-      res.render("books/edit", { book: data});
+      res.render("books/edit", { book: data, csrf: req.csrfToken() });
     }
   });
 });

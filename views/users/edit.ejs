@@ -1,0 +1,40 @@
+<% include ./../layouts/_header %>
+
+<!-- UX dictate that toggling mask on password gave much better experience and confidence for user -->
+<script type="text/javascript">
+  function togglePasswordMask(event) {
+    let txtpw     = document.querySelector('#password');
+    let cbUnmask  = document.querySelector('#checkbox-unmask-pw');
+
+    txtpw.type = cbUnmask.checked ?  'text' : 'password';
+  }
+</script>
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm-8 col-sm-offset-2">
+      <h1 class="text-center">Update Profile</h1>
+      <hr>
+      <div class="panel">
+        <div class="panel-body">
+          <form action="/users/profile?_method=PUT" method="POST">
+            <input type="hidden" name="_csrf" value="<%= csrf %>">
+            <div class="form-group">
+              <label for="username">Full Name</label>
+              <input type="text" class="form-control" id="username" name="name"
+              value="<%= currentUser.name %>" placeholder="Full Name" autofocus required>
+            </div>
+            <div class="form-group">
+              <button type="submit" class="btn btn-success btn-block"
+                data-disable-with="<i class='fa fa-spinner fa-spin'></i>
+                updating...">Update
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<% include ./../layouts/_footer %>

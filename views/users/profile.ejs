@@ -1,0 +1,24 @@
+<% include ./../layouts/_header %>
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm-8 col-sm-offset-2">
+      <h1 class="text-center"><%= currentUser.name %></h1>
+      <hr>
+      <div class="panel">
+        <div class="panel-body">
+          <p>
+            <i class="fa fa-envelope-o" aria-hidden="true"></i> <%= currentUser.email %>
+          </p>
+          <div class="text-right">
+            <p>
+              <a class="btn btn-warning" href="/users/profile/edit">Update Profile</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<% include ./../layouts/_footer %>

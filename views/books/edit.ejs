@@ -22,6 +22,7 @@
     <div class="col-sm-8 col-sm-offset-2">
       <div class="container-fluid">
         <form action="/books/<%= book.id %>?_method=PUT" method="POST">
+          <input type="hidden" name="_csrf" value="<%= csrf %>">
           <div class="form-group">
             <label for="title">Title</label>
             <input type="text" class="form-control" id="title" name="book[title]"
@@ -85,7 +86,7 @@
             </div>
             <div class="col-sm-6">
               <button class="btn btn-block btn-success">
-                Sell !!
+                Update!!
               </button>
             </div>
           </div>

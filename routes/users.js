@@ -66,11 +66,40 @@ router.get('/transactions', middlewareObj.isLoggedIn, (req, res) => {
   });
 });
 
+// show profile
+router.get('/profile', middlewareObj.isLoggedIn, (req, res) => {
+  res.render("users/profile", { profile: req.user });
+});
+
 // show edit form
+router.get('/profile/edit', middlewareObj.isLoggedIn, (req, res) => {
+  res.render("users/edit", { csrf: req.csrfToken() });
+});
 
 // update
+router.put('/profile', middlewareObj.isLoggedIn, (req, res) => {
+  let name = req.body.name;
 
-// delete
+  User.findByIdAndUpdate(
+    {
+      _id: req.user._id
+    },
+    {
+      $set: { name }
+    },
+    (err, cb) => {
+      if (err) {
+        console.log(err);
+        req.flash("error", "failed to update profile");
+        res.redirect("/profile/edit");
+      } else {
+        req.flash("success", "profile updated");
+        res.redirect("profile");
+      }
+    }
+  );
+});
+
 
 
 module.exports = router;

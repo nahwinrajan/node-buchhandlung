@@ -107,7 +107,7 @@ app.use(function(req, res, next) {
 
   // respond with html page
   if (req.accepts('html')) {
-    res.render('404', { url: req.url });
+    res.render('./../public/static/404', { url: req.url });
     return;
   }
 
@@ -125,8 +125,9 @@ app.use(function(req, res, next) {
 // will print stacktrace
 if (app.get('env') === 'development') {
   app.use(function(err, req, res, next) {
+    if(err) console.log(err);
     res.status(err.status || 500);
-    res.render('500', {
+    res.render('./../public/static/500', {
       message: err.message,
       error: err
     });
@@ -136,8 +137,9 @@ if (app.get('env') === 'development') {
 // production error handler
 // no stacktraces leaked to user
 app.use(function(err, req, res, next) {
+  console.log(err);
   res.status(err.status || 500);
-  res.render('500', {
+  res.render('./../public/static/500', {
     message: err.message,
     error: {}
   });
