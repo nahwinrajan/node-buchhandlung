@@ -1,8 +1,8 @@
-let mongoose      = require("mongoose");
-let faker         = require("faker");
+const mongoose      = require("mongoose");
+const faker         = require("faker");
 
-let Book    = require("./models/book"),
-    User    = require("./models/user");
+const Book    = require("./models/book"),
+      User    = require("./models/user");
 
 function seedDB() {
   Book.remove({}, (err) => {
@@ -15,10 +15,10 @@ function seedDB() {
 
   for(let i=0; i < 10; i++) {
     Book.create({
-      title: faker.name.title(),
-      description: faker.lorem.paragraphs(),
+      title: faker.commerce.productName(),
+      description: faker.lorem.paragraphs(2), // 2 paragraphs; the default is 3
       rating: (Math.ceil(Math.random() * (6+0) + 0)),
-      price: faker.commerce.price(),
+      price: faker.commerce.price(0, 50, 2),  //min: 0, max: 50, decimal point: 2
       pages: faker.random.number(),
       publishDate: faker.date.past(),
       isbn: (Math.round(Math.random() * (9999999999999 + 1000000000000) + 1000000000000)).toString()
