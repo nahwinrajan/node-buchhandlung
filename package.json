@@ -44,7 +44,8 @@
     "passport-local": "^1.0.0",
     "passport-local-mongoose": "^4.0.0",
     "serve-favicon": "^2.3.2",
-    "stripe": "^4.15.0"
+    "stripe": "^4.15.0",
+    "strong-cli": "^2.6.4"
   },
   "devDependencies": {
     "chai": "^3.5.0",

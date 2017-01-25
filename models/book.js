@@ -47,7 +47,7 @@ var bookSchema = mongoose.Schema({
 });
 
 // schema hooks
-bookSchema.pre('save', function(next) {
+bookSchema.pre('save', function bookPreSave(next) {
   let now = new Date();
   this.updated_at = now;
   if (!this.created_at) {
@@ -57,14 +57,14 @@ bookSchema.pre('save', function(next) {
   next();
 });
 
-bookSchema.pre('update', function(next) {
+bookSchema.pre('update', function bookPreUpdate(next) {
   this.updated_at = new Date();
   next();
 });
 
 
 // schema methods
-bookSchema.statics.all = function(cb) {
+bookSchema.statics.all = function bookGetAll(cb) {
   if (arguments.length < 1 || typeof cb !== 'function') {
     return cb(new Error('Invalid arguments given'));
   }
@@ -72,7 +72,7 @@ bookSchema.statics.all = function(cb) {
   return this.find({}, cb);
 };
 
-bookSchema.statics.findByTitle = function(titleKeyword, cb) {
+bookSchema.statics.findByTitle = function bookFindByTitle(titleKeyword, cb) {
   if (arguments.length < 2 || !titleKeyword || typeof titleKeyword !== 'string'
   || typeof cb !== 'function') {
     return cb(new Error('Invalid arguments given'));
@@ -81,7 +81,7 @@ bookSchema.statics.findByTitle = function(titleKeyword, cb) {
   return this.find({ title: titleKeyword}, cb);
 };
 
-bookSchema.statics.findByISBN = function(isbnKeyword, cb) {
+bookSchema.statics.findByISBN = function bookFindByISBN(isbnKeyword, cb) {
   if (arguments.length < 2 || !isbnKeyword || typeof isbnKeyword !== 'string' ||
    typeof cb !== 'function') {
     cb(new Error('Invalid arguments given'));
@@ -90,12 +90,12 @@ bookSchema.statics.findByISBN = function(isbnKeyword, cb) {
   return this.find({ isbn: isbn}, cb);
 };
 
-bookSchema.methods.descriptionShort = function() {
+bookSchema.methods.descriptionShort = function bookDescriptionShort() {
   return this.description.substring(0, 100);
 };
 
-bookSchema.methods.publishDateShort = function() {
+bookSchema.methods.publishDateShort = function bookPublishDateShort() {
   return this.publishDate.toISOString().substring(0, 10);
-}
+};
 
 module.exports = mongoose.model("Book", bookSchema);

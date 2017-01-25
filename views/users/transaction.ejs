@@ -1,0 +1,59 @@
+<% include ./../layouts/_header %>
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm-8 col-sm-offset-2">
+      <% if(!orders) { %>
+        <h4 class="text-center">No recent transaction found</h4>
+      <% } else {%>
+        <% orders.forEach(function (order) { %>
+          <div class="panel-group">
+            <div class="panel panel-info">
+              <div class="panel-heading" data-toggle="collapse"
+              data-target="#details-<%= order.id %>">
+                  <span class="text-left">
+                    <%= order.created_at.toDateString() %>
+                  </span>
+                  <span class="pull-right">
+                    <i class="fa fa-usd" aria-hidden="true"></i> <%= order.price %>
+                  </span>
+              </div>
+              <div class="panel-collapse collapse" id="details-<%= order.id %>">
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th>Title</th>
+                      <th class="text-right">Quantity</th>
+                      <th class="text-right">Price @</th>
+                      <th class="text-right">Subtotal</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% Object.keys(order.items).forEach(function (key) {  %>
+                      <tr>
+                        <td>
+                          <%= order.items[key].title %>
+                        </td>
+                        <td class="text-right">
+                          <%= order.items[key].qty %>
+                        </td>
+                        <td class="text-right">
+                          <%= order.items[key].price %>
+                        </td>
+                        <td class="text-right">
+                          <%= (order.items[key].price * order.items[key].qty) %>
+                        </td>
+                      </tr>
+                    <% }); %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        <% }); %>
+      <% } %>
+    </div>
+  </div>
+</div>
+
+<% include ./../layouts/_footer %>

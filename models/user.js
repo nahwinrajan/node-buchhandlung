@@ -24,7 +24,7 @@ var userSchema = mongoose.Schema({
 });
 
 // schema hooks
-userSchema.pre('save', function(next) {
+userSchema.pre('save', function userPreSave(next) {
   let now = new Date();
   this.updated_at = now;
   if (!this.created_at) {
@@ -34,12 +34,12 @@ userSchema.pre('save', function(next) {
   next();
 });
 
-userSchema.pre('update', function(next) {
+userSchema.pre('update', function userPreUpdate(next) {
   this.updated_at = new Date();
   next();
 });
 
-userSchema.statics.findByEmail = function(emailKeyword, cb) {
+userSchema.statics.findByEmail = function userFindByEmail(emailKeyword, cb) {
   if (arguments.length < 2 || !emailKeyword || typeof emailKeyword !== 'string'
   || typeof cb !== 'function') {
     return cb(new Error('Invalid arguments given'));
@@ -48,12 +48,12 @@ userSchema.statics.findByEmail = function(emailKeyword, cb) {
   return this.findOne({ email: emailKeyword}, cb);
 };
 
-userSchema.methods.encryptPassword = function(_password) {
+userSchema.methods.encryptPassword = function userEncryptPass(_password) {
   return bcrypt.hashSync(_password, 10);
-}
+};
 
-userSchema.methods.comparePassword = function(_password) {
+userSchema.methods.comparePassword = function userComparePass(_password) {
   return bcrypt.compareSync(_password, this.password);
-}
+};
 
 module.exports = mongoose.model('User', userSchema);

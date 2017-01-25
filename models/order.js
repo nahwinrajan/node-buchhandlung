@@ -42,7 +42,7 @@ var orderSchema = mongoose.Schema({
   created_at: Date
 });
 
-orderSchema.pre('save', (next) => {
+orderSchema.pre('save', function (next) {
   let now = new Date();
   this.updated_at = now;
   if (!this.created_at) {
@@ -52,20 +52,12 @@ orderSchema.pre('save', (next) => {
   next();
 });
 
-orderSchema.pre('update', (next) => {
+orderSchema.pre('update', function (next) {
   this.updated_at = new Date();
   next();
 });
 
-orderSchema.statics.all = (cb) => {
-  if (arguments.length < 1 || typeof cb !== 'function') {
-    return cb(new Error('Invalid arguments given'));
-  }
-
-  return this.find({}, cb);
-};
-
-orderSchema.statics.findById = (idKeyword, withDetails, cb) => {
+orderSchema.statics.findById = function orderFindById(idKeyword, withDetails, cb) {
   if (arguments.length < 3 || !idKeyword || typeof idKeyword !== 'string' ||
   typeof withDetails !== 'boolean' || typeof cb !== 'function') {
     cb(new Error('Invalid arguments given'));
@@ -78,22 +70,15 @@ orderSchema.statics.findById = (idKeyword, withDetails, cb) => {
   }
 };
 
-orderSchema.statics.findByCustomer = (customerId, cb) => {
-  if (arguments.length < 2 || !customerId || typeof customerId !== 'string' ||
-  typeof cb !== 'function') {
+orderSchema.statics.findByCustomer = function orderFindByCustomer(customer, cb) {
+  if (arguments.length < 2 || !customer || typeof cb !== 'function') {
     return cb(new Error('Invalid arguments given'));
   }
 
-  return this.find({customer: customerId}, cb);
-};
-
-orderSchema.statics.findOrderAndPopulateItems = (idKeyword, cb) => {
-  if (arguments.length < 2 || !idKeyword || typeof idKeyword !== 'string' ||
-  typeof cb !== 'function') {
-    return cb(new Error('Invalid arguments given'));
-  }
-
-  return this.findById({_id: idKeyword}).populate('items');
+  return this.
+    find({customer}).
+    sort({created_at: -1}).
+    exec(cb);
 };
 
 module.exports = mongoose.model("Order", orderSchema);

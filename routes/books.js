@@ -11,12 +11,13 @@ var middlewareObj = require('./../middlewares');
 
 // return all books
 router.get('/', (req, res) => {
-  Book.all( (err, foundBooks) => {
+  Book.all( (err, data) => {
     if (err) {
       console.log(err);
-      res.render("404");
+      res.render("500");
     } else {
-      res.render('books/index', { books: foundBooks });
+      console.log(`Books data: ${data}`);
+      res.render('books/index', { books: data });
     }
   });
 });
@@ -43,41 +44,41 @@ router.post('/', middlewareObj.isLoggedIn, (req, res) => {
       res.redirect("back");
     }
 
-  Book.create(req.body.book, (err, createdBook) => {
+  Book.create(req.body.book, (err, data) => {
     if(err) {
       console.log(err);
       req.flash("error", "Can't create book");
       req.flash("error", err.message);
       res.redirect("back");
     } else {
-      req.flash("success", createdBook.title + " created");
-      res.redirect("/books/" + createdBook.id);
+      req.flash("success", data.title + " created");
+      res.redirect("/books/" + data.id);
     }
   });
 });
 
 // show particular book
 router.get('/:id', (req, res) => {
-  Book.findById(req.params.id, function (err, foundBook) {
+  Book.findById(req.params.id, function (err, data) {
     if (err) {
       console.log(err);
       req.flash("error", err.message);
       res.redirect("back");
     } else {
-      res.render("books/show", { book: foundBook});
+      res.render("books/show", { book: data});
     }
   });
 });
 
 // show edit form
 router.get('/:id/edit', middlewareObj.isLoggedIn, (req, res) => {
-  Book.findById(req.params.id, function (err, foundBook) {
+  Book.findById(req.params.id, function (err, data) {
     if (err) {
       console.log(err);
       req.flash("error", err.message);
       res.redirect("back");
     } else {
-      res.render("books/edit", { book: foundBook});
+      res.render("books/edit", { book: data});
     }
   });
 });
@@ -107,28 +108,28 @@ router.put("/:id", middlewareObj.isLoggedIn , (req, res) => {
     res.redirect("back");
   }
 
-  Book.findByIdAndUpdate(req.params.id, req.body.book, (err, updatedBook) => {
+  Book.findByIdAndUpdate(req.params.id, req.body.book, (err, data) => {
     if(err) {
       req.flash("error", "Can't update book");
       req.flash("error", err.message);
       res.redirect("back");
     } else {
-      req.flash("success", updatedBook.title + " updated");
-      res.redirect("/books/" + updatedBook.id);
+      req.flash("success", data.title + " updated");
+      res.redirect("/books/" + data.id);
     }
   });
 });
 
 // delete book
 router.delete("/:id", middlewareObj.isLoggedIn, (req, res) => {
-  Book.findByIdAndRemove(req.params.id, (err, deletedBook) => {
+  Book.findByIdAndRemove(req.params.id, (err, data) => {
     if(err) {
-      console.log(err); //todo: change all error loggin to separate file
+      console.log(err);
       req.flash("error", "Can't remove book");
       req.flash("error", err.message);
       res.redirect("back");
     } else {
-      req.flash("success", deletedBook.title + " removed");
+      req.flash("success", data.title + " removed");
       res.redirect("/");
     }
   });

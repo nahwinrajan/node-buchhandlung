@@ -50,7 +50,7 @@ module.exports = function Cart(oldCart) {
     }
   }
 
-  this.generateItemsAsArray = function() {
+  this.GetItemsArray = function convertItemsObjToArray() {
     let arr = [];
 
     for(let id in this.items) {

@@ -62,7 +62,7 @@ router.get('/removefromcart/:id', (req, res) => {
 
 router.get('/cart', (req, res) => {
   let cart = new Cart((req.session.cart) ? req.session.cart : {});
-  res.render('cart/index', { items: cart.generateItemsAsArray(), totalPrice: cart.totalPrice });
+  res.render('cart/index', { items: cart.GetItemsArray(), totalPrice: cart.totalPrice });
 });
 
 router.get('/checkout', middlewareObj.isLoggedIn, (req, res) => {
@@ -102,12 +102,10 @@ router.post('/checkout', middlewareObj.isLoggedIn, (req, res) => {
     items     : req.session.cart.items
   });
 
-  console.log("==== order object: ", order);
-  console.log("==== cart object: ", req.session.cart);
-
   // updating payment status after charging customer
   let cbUpdateOrder = (err, updatedOrder) => {
     if (err) {
+      console.log(err);
       // another place where we should update the consolidation process
       req.flash("error", "order received and paid but there was problem with updating order status, we'll try again later and notify you");
       res.redirect("/books");
@@ -133,7 +131,10 @@ router.post('/checkout', middlewareObj.isLoggedIn, (req, res) => {
         source: req.body.stripeToken, // obtained with Stripe.js
         description: "Bucchandlung - " + req.session.totalQty + " book(s)"
       }, (err, charge) => {
+        delete req.session.cart;
+
         if (err) {
+          console.log(err);
           // this is where we should update our consolidation process / table
           // but for now let's just redirect to checkout
           req.flash("error", "order received but there was problem with payment, we'll try again later and notify you");

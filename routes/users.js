@@ -4,10 +4,14 @@ var express         = require('express'),
 
 
 // variables - model
-var User = require('./../models/user');
+var User    = require('./../models/user'),
+    Order   = require('./../models/order');
+
+// variables - middleware
+var middlewareObj = require('./../middlewares');
 
 // show register form
-router.get('/signup', function(req, res) {
+router.get('/signup', (req, res) => {
   res.render("users/signup", { csrf: req.csrfToken() });
 });
 
@@ -25,14 +29,8 @@ router.post('/signup', passport.authenticate('local.signup', {
   }
 );
 
-// show edit form
-
-// update
-
-// delete
-
 // show sign in form
-router.get('/signin', function(req, res) {
+router.get('/signin', (req, res) => {
   res.render("users/signin", { csrf: req.csrfToken() });
 });
 
@@ -40,7 +38,7 @@ router.get('/signin', function(req, res) {
 router.post('/signin', passport.authenticate('local.signin', {
     failureRedirect: '/users/signin',
     failureFlash: true
-  }), function(req, res, next){
+  }), (req, res, next) => {
 
     var redirectTo = req.session.redirectTo ? req.session.redirectTo : '/';
     delete req.session.redirectTo;
@@ -49,10 +47,30 @@ router.post('/signin', passport.authenticate('local.signin', {
 });
 
 // sign out
-router.get('/signout', function (req, res) {
+router.get('/signout', (req, res) => {
   req.logout();
   req.session.destroy();
   res.redirect('/');
 });
+
+// order history / recent transaction
+router.get('/transactions', middlewareObj.isLoggedIn, (req, res) => {
+  Order.findByCustomer( req.user, function(err, data) {
+    if(err) {
+      console.log(err);
+      req.flash("error", "something went wrong while trying to retrieve recent transaction");
+      data = null;
+    }
+
+    res.render("users/transaction", { orders: data});
+  });
+});
+
+// show edit form
+
+// update
+
+// delete
+
 
 module.exports = router;
