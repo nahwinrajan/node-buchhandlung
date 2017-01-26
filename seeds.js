@@ -2,62 +2,86 @@ let mongoose      = require("mongoose");
 let faker         = require("faker");
 
 let Book    = require("./models/book"),
-    User    = require("./models/user");
+    User    = require("./models/user"),
+    Order   = require("./models/order");
 
 function seedDB() {
+  Order.remove({}, err => {
+    if (err) console.log(err);
+    else console.log("Orders Collection - cleaned up");
+  });
+
   Book.remove({}, (err) => {
-    if (err) {
-      console.log("seedDB encountered some error: \n" + err.message + "\n\n" + err.stack);
-    } else {
-      console.log("Book Collection - cleaned up");
+    if (err) console.log(err);
+    else {
+      console.log("Books Collection - cleaned up");
+      seedBooks();
     }
   });
 
+  User.remove({}, (err) => {
+    if (err) console.log(err);
+    else {
+      console.log("Users Collection - cleaned up");
+      seedUsers();
+    }
+  });
+};
+
+function seedBooks() {
+  let books = [];
   for(let i=0; i < 10; i++) {
-    Book.create({
-      title: faker.name.title(),
-      description: faker.lorem.paragraphs(),
+    books.push({
+      title: faker.commerce.productName(),
+      description: faker.lorem.paragraphs(2),
       rating: (Math.ceil(Math.random() * (6+0) + 0)),
-      price: faker.commerce.price(),
+      price: faker.commerce.price(0, 50, 2),
       pages: faker.random.number(),
       publishDate: faker.date.past(),
-      isbn: (Math.round(Math.random() * (9999999999999 + 1000000000000) + 1000000000000)).toString()
+      isbn: (Math.round(Math.random() * (9999999999999 + 1000000000000) + 1000000000000)).toString(),
     });
   }
 
-  console.log("Book Collection - populated");
-
-  User.remove({}, (err) => {
-    if (err) {
-      console.log("seedDB encountered some error: \n" + err.message + "\n\n" + err.stack);
-    } else {
-      console.log("User Collection - cleaned up");
-    }
+  Book.create(books, (err, results) => {
+    if (err) console.log(err);
+    else console.log("Books Collection - seeded");
   });
+};
 
-  let sherlock = new User({
-    name: "Sherlock Holmes",
-    email: "sherlock@example.com"
+function seedUsers() {
+  let dummyUser = new User({
+    name: "dummy",
+    email: "dummy@email.com"
   });
-  sherlock.password = sherlock.encryptPassword("password");
-  sherlock.save();
+  dummyUser.password = dummyUser.encryptPassword("password");
 
-  let albus = new User({
-    name: "Albus Dumbledore",
-    email: "albus@example.com"
+  let users = [
+    {
+      name: "Sherlock Holmes",
+      email: "sherlock@example.com",
+      password: dummyUser.password,
+    },
+    {
+      name: "Albus Dumbledore",
+      email: "albus@example.com",
+      password: dummyUser.password,
+    },
+    {
+      name: "Nikola Tesla",
+      email: "nikola@example.com",
+      password: dummyUser.password,
+    },
+    {
+      name: "Charlie Brown",
+      email: "charlie@example.com",
+      password: dummyUser.password,
+    },
+  ]
+
+  User.create(users, (err, results) => {
+    if (err) console.log(err);
+    else console.log("Users Collection - seeded");
   });
-  albus.password = albus.encryptPassword("password");
-  albus.save();
-
-  let nikolas = new User({
-    name: "Nikolas Tesla",
-    email: "nikolas@example.com"
-  });
-  nikolas.password = nikolas.encryptPassword("password");
-  nikolas.save();
-
-
-  console.log('---- seeding done ----');
 }
 
 module.exports = seedDB;

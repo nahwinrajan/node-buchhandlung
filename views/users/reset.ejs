@@ -1,0 +1,40 @@
+<% include ./../layouts/_header %>
+
+<!-- UX dictate that toggling mask on password gave much better experience and confidence for user -->
+<script src="/js/showpassword.js"></script>
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm-8 col-sm-offset-2">
+      <h1 class="text-center">
+        Change Password
+      </h1>
+      <hr>
+      <div class="panel">
+        <div class="panel-body">
+          <form action="/users/reset/<%= token %>?_method=PUT" method="POST">
+            <input type="hidden" name="_csrf" value="<%= csrf %>">
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input type="password" class="form-control" id="password"
+              name="password" placeholder="Password"
+              title="password must be at least 6 characters long of alphanumeric"
+              pattern="[A-Za-z0-9]{6,}" required>
+              <input type="checkbox" id="checkbox-unmask-pw"
+              onchange="togglePasswordMask()" style="margin-top: 20px;padding: 10px 20px;">
+              <label for="checkbox-unmask-pw">Show Password</label>
+            </div>
+            <div class="form-group">
+              <button type="submit" class="btn btn-success btn-block"
+                data-disable-with="<i class='fa fa-spinner fa-spin'></i>
+                registering...">Change
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<% include ./../layouts/_footer %>

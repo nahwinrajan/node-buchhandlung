@@ -3,7 +3,7 @@ var middlewareObj = {};
 // variables - models
 var Book    = require("./../models/book");
 
-middlewareObj.isLoggedIn = (req, res, next) => {
+middlewareObj.isLoggedIn = function midIsLoggedIn(req, res, next) {
   if(req.isAuthenticated()) {
     return next();
   }

@@ -18,6 +18,14 @@ var userSchema = mongoose.Schema({
     type: String,
     required: true
   },
+  resetPasswordToken: {
+    type: String,
+    default: undefined
+  },
+  resetPasswordExpiry: {
+    type: Date,
+    default: undefined
+  },
   updated_at: Date,
   created_at: Date
 });
@@ -47,7 +55,20 @@ userSchema.statics.findByEmail = function userFindByEmail(emailKeyword, cb) {
   return this.findOne({ email: emailKeyword}, cb);
 };
 
-userSchema.methods.encryptPassword = function userEncryptPass(_password) {
+userSchema.statics.findByResetToken = function userFindByResetToken(token, cb) {
+  if (arguments.length < 2 || !token || typeof token !== 'string'
+  || typeof cb !== 'function') {
+    return cb(new Error('Invalid arguments given'));
+  }
+
+  // search for user associated with given token AND not expired yet
+  return this.findOne({
+    resetPasswordToken: token,
+    resetPasswordExpiry: { $gt: Date.now()}
+  }, cb);
+};
+
+userSchema.statics.encryptPassword = function userEncryptPass(_password) {
   return bcrypt.hashSync(_password, 10);
 };
 

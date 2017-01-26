@@ -1,14 +1,7 @@
 <% include ./../layouts/_header %>
 
 <!-- UX dictate that toggling mask on password gave much better experience and confidence for user -->
-<script type="text/javascript">
-  function togglePasswordMask(event) {
-    let txtpw     = document.querySelector('#password');
-    let cbUnmask  = document.querySelector('#checkbox-unmask-pw');
-
-    txtpw.type = cbUnmask.checked ?  'text' : 'password';
-  }
-</script>
+<script src="/js/showpassword.js"></script>
 
 <div class="container">
   <div class="row">
