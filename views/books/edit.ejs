@@ -43,6 +43,17 @@
             placeholder="book's page count" min="1" step="1" required>
           </div>
           <div class="form-group">
+            <label for="authors">Author(s)</label>
+            <input type="text" class="form-control" id="authors" name="book[authors]"
+             value="<%= book.authors.join(',') %>"
+             placeholder="book's author(s), separate the author by ','" required>
+          </div>
+          <div class="form-group">
+            <label for="publisher">Publisher</label>
+            <input type="text" class="form-control" id="publisher" name="book[publisher]"
+            value="<%= book.publisher %>" placeholder="book's publisher" required>
+          </div>
+          <div class="form-group">
             <label for="publishDate">Publish Date</label>
             <input type="date" class="form-control" id="publishDate"
             name="book[publishDate]" value="<%= book.publishDateShort() %>"
@@ -66,17 +77,6 @@
             <input type="number" class="form-control" id="price" name="book[price]"
             value="<%= book.price %>" placeholder="sell price" min="0" step="0.01"
             required>
-          </div>
-          <div class="form-group">
-            <label for="author">Author Name</label>
-            <input type="text" name="book[author]" id="author"  class="form-control"
-            placeholder="book's author name" value="<%= book.author %>">
-          </div>
-          <div class="form-group">
-            <label for="publisher">Publisher</label>
-            <input type="text" class="form-control" id="publisher"
-            name="book[publisher]" value="<%= book.publisher %>"
-            placeholder="publisher name">
           </div>
           <div class="row">
             <div class="col-sm-6">

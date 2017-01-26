@@ -28,9 +28,16 @@ router.get('/new', middlewareObj.isLoggedIn, (req, res) => {
 
 // create new book listing
 router.post('/', middlewareObj.isLoggedIn, (req, res) => {
+  req.body.book.title           = req.sanitize(req.body.book.title);
+  req.body.book.description     = req.sanitize(req.body.book.description);
+  req.body.book.authors            = req.sanitize(req.body.book.authors);
+  req.body.book.publisher            = req.sanitize(req.body.book.publisher);
+
   req.checkBody('book[title]', 'Invalid Title').notEmpty().isLength({max: 250});
   req.checkBody('book[description]', 'Description is required').notEmpty();
   req.checkBody('book[pages]', 'Description is required').notEmpty().isInt();
+  req.checkBody('book[authors]', 'Author(s) is required').notEmpty();
+  req.checkBody('book[publisher]', 'Publisher is required').notEmpty();
   req.checkBody('book[price]', 'Description is required').notEmpty();
   req.checkBody('book[publishDate]', 'Description is required').notEmpty();
   req.checkBody('book[isbn]',
@@ -43,7 +50,10 @@ router.post('/', middlewareObj.isLoggedIn, (req, res) => {
       res.redirect("back");
     }
 
-  Book.create(req.body.book, (err, data) => {
+  let book = req.body.book;
+  book.authors = book.authors.replace(', ', ',').split(',');
+
+  Book.create(book, (err, data) => {
     if(err) {
       console.log(err);
       req.flash("error", "Can't create book");
@@ -86,7 +96,8 @@ router.get('/:id/edit', middlewareObj.isLoggedIn, (req, res) => {
 router.put("/:id", middlewareObj.isLoggedIn , (req, res) => {
   req.body.book.title           = req.sanitize(req.body.book.title);
   req.body.book.description     = req.sanitize(req.body.book.description);
-  req.body.book.isbn            = req.sanitize(req.body.book.isbn);
+  req.body.book.authors            = req.sanitize(req.body.book.authors);
+  req.body.book.publisher            = req.sanitize(req.body.book.publisher);
 
   req.checkBody('book[title]', 'Invalid Title').notEmpty().isLength({max: 250});
   req.checkBody('book[description]', 'Description is required').notEmpty();
@@ -107,7 +118,10 @@ router.put("/:id", middlewareObj.isLoggedIn , (req, res) => {
     res.redirect("back");
   }
 
-  Book.findByIdAndUpdate(req.params.id, req.body.book, (err, data) => {
+  let book = req.body.book;
+  book.authors = book.authors.replace(', ', ',').split(',');
+
+  Book.findByIdAndUpdate(req.params.id, book, (err, data) => {
     if(err) {
       req.flash("error", "Can't update book");
       req.flash("error", err.message);

@@ -39,6 +39,16 @@
             placeholder="book's page count" min="1" step="1" required>
           </div>
           <div class="form-group">
+            <label for="authors">Author(s)</label>
+            <input type="text" class="form-control" id="authors" name="book[authors]"
+            placeholder="book's author(s), separate the author by ','" required>
+          </div>
+          <div class="form-group">
+            <label for="publisher">Publisher</label>
+            <input type="text" class="form-control" id="publisher" name="book[publisher]"
+            placeholder="book's publisher" required>
+          </div>
+          <div class="form-group">
             <label for="publishDate">Publish Date</label>
             <input type="date" class="form-control" id="publishDate"
             name="book[publishDate]" placeholder="book's publish date">
@@ -58,16 +68,6 @@
             <label for="price">Price</label>
             <input type="number" class="form-control" id="price" name="book[price]"
             placeholder="sell price" min="0" step="0.01" required>
-          </div>
-          <div class="form-group">
-            <label for="author">Author Name</label>
-            <input type="text" class="form-control" id="author" name="book[author]"
-            placeholder="book's author name">
-          </div>
-          <div class="form-group">
-            <label for="publisher">Publisher</label>
-            <input type="text" class="form-control" id="publisher"
-            name="book[publisher]" placeholder="publisher name">
           </div>
           <div class="row">
             <div class="col-sm-6">
