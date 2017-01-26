@@ -12,8 +12,8 @@
           <p><%= book.description %></p>
           <ul class="list-group">
             <li class="list-group-item">Pages: <strong><%= book.pages %></strong></li>
-            <!-- <li class="list-group-item">Author: <strong><%= book.auther %></strong></li> -->
-            <!-- <li class="list-group-item">Publisher: <strong><%= book.publisher %></strong></li> -->
+            <li class="list-group-item">Author(s): <strong><%= book.authors.join(', ') %></strong></li>
+            <li class="list-group-item">Publisher: <strong><%= book.publisher %></strong></li>
             <li class="list-group-item">Rating: <strong><%= book.rating %></strong></li>
             <li class="list-group-item">ISBN: <strong><%= book.isbn %></strong></li>
             <li class="list-group-item">Publish Date: <strong><%= book.publishDate.toDateString() %></strong></li>

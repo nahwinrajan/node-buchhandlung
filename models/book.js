@@ -35,15 +35,21 @@ var bookSchema = mongoose.Schema({
     maxLength: [13, 'ISBN number must be exactly 13 characters of number'],
     minLength: [13, 'ISBN number must be exactly 13 characters of number']
   },
+  authors: [
+    {
+      type: String,
+      required: true
+    }
+  ],
+  publisher: {
+    type: String,
+    required: true
+  },
+  coverImage: String,
   // since mongoose >= 4.x we can just use { timestamp: true},
   // but I need something to demosntrate using moongoose hooks so ..
   updated_at: Date,
   created_at: Date
-  //to-add
-  // cover_image
-  // category_id
-  // author_id
-  // publisher_id
 });
 
 // schema hooks

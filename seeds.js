@@ -39,6 +39,12 @@ function seedBooks() {
       pages: faker.random.number(),
       publishDate: faker.date.past(),
       isbn: (Math.round(Math.random() * (9999999999999 + 1000000000000) + 1000000000000)).toString(),
+      authors: [
+        (faker.name.findName()),
+        (faker.name.findName()),
+        (faker.name.findName())
+      ],
+      publisher: faker.company.companyName()
     });
   }
 
@@ -49,32 +55,26 @@ function seedBooks() {
 };
 
 function seedUsers() {
-  let dummyUser = new User({
-    name: "dummy",
-    email: "dummy@email.com"
-  });
-  dummyUser.password = dummyUser.encryptPassword("password");
-
   let users = [
     {
       name: "Sherlock Holmes",
       email: "sherlock@example.com",
-      password: dummyUser.password,
+      password: User.encryptPassword("password"),
     },
     {
       name: "Albus Dumbledore",
       email: "albus@example.com",
-      password: dummyUser.password,
+      password: User.encryptPassword("password")
     },
     {
       name: "Nikola Tesla",
       email: "nikola@example.com",
-      password: dummyUser.password,
+      password: User.encryptPassword("password")
     },
     {
       name: "Charlie Brown",
       email: "charlie@example.com",
-      password: dummyUser.password,
+      password: User.encryptPassword("password")
     },
   ]
 

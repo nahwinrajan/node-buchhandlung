@@ -6,11 +6,11 @@ buchhandlung mean bookstore in German. (well that is what google translate tell 
 - MongoDB / Mongoose
 - Passport   (local, Facebook, and Twitter Strategy)
 - RESTful API/site
-- Payment system using Stripe
+- Stripe - payment gateway (create charge, order history)
 - Middleware
 - Integration with AWS for file storage
   - Book Cover image
-- Nodemailer
+- SendGrid - email delivery service
   - email verification
   - password reset
   - receipt
@@ -41,7 +41,7 @@ buchhandlung mean bookstore in German. (well that is what google translate tell 
 
 ## Database Structure
 
-####Book
+####Books
 * id
 * title: string, required, max-250, min-1
 * description: text, required, min-1, html-markup-able
@@ -52,41 +52,14 @@ buchhandlung mean bookstore in German. (well that is what google translate tell 
 * year: int / date.year (I'll need to decide)
 * language: string
 * cover_id: FK to image record in image table, basically a cover
-* category_id
-* author_id
-* publisher_id
 * created_at
 * modified_at
 
-:belongs_to :authors
-:belongs_to :publisher (exactly one publisher)
 :has_many   :image (just a cover for the time being)
 :has_many   :category (just a category for each book for the time being)
 :has_many   :order_items
 
-
-####Author
-* id            
-* name    : string, required, max-25, min-1
-* about         : string, max-500
-* created_at
-* modified_at
-
-:has_many   :books
-:has_many   :image (just a profile image for the time being)
-
-####publisher
-* id
-* name        : string, max-50, required
-* site        : string, url, max-100,
-* about       : text, required
-* created_at
-* modified_at
-
-:has_many :books
-:has_many :authors
-
-####User - Passport-local (for the sake of easy Development)
+####Users - Passport-local (for the sake of easy Development)
 * id
 * email       : string, required, valid email format
 * password    : string, required, min-6, max-50
@@ -100,20 +73,7 @@ buchhandlung mean bookstore in German. (well that is what google translate tell 
 :has_many :orders
 :has_many :shipping_address
 
-####shipping_address
-* id
-* street_1    : string, required, max-50
-* street_2    : string, max-50
-* state       : string, required, max-50
-* zip_code    : string, required, max-10, min-6
-* country     : string, required, max-50
-* created_at
-* modified_at
-
-:belongs_to :user
-:belongs_to :orders
-
-####orders
+####Orders
 * id
 * totalPrice    : float(2 decimal point), required
 * purchase_date : date, required
@@ -127,24 +87,3 @@ buchhandlung mean bookstore in German. (well that is what google translate tell 
 :belongs_to :user
 :has_many   :shipment_status
 :has_many   :order_items
-
-####order_items
-* id
-* qty           : int, required, min-1
-* soldPrice (each)    : float(2 decimal point), required
-* books_id
-* orders_id
-* created_at
-* modified_at
-
-:belongs_to :order
-:has_many   :books
-
-####shipment_status - a static shipment shipment status
-* id
-* status        : string, max-50
-- processing
-- shipped
-- delivered
-
-:belongs_to   :orders
