@@ -1,5 +1,9 @@
-var express       = require('express'),
-    router        = express.Router();
+var express   = require('express'),
+    router    = express.Router(),
+    fs        = require('fs'),
+    aws       = require('aws-sdk'),
+    multer    = require('multer'),
+    multerS3  = require('multer-s3');
 
 // variables - models
 var Book = require("./../models/book");
@@ -30,8 +34,8 @@ router.get('/new', middlewareObj.isLoggedIn, (req, res) => {
 router.post('/', middlewareObj.isLoggedIn, (req, res) => {
   req.body.book.title           = req.sanitize(req.body.book.title);
   req.body.book.description     = req.sanitize(req.body.book.description);
-  req.body.book.authors            = req.sanitize(req.body.book.authors);
-  req.body.book.publisher            = req.sanitize(req.body.book.publisher);
+  req.body.book.authors         = req.sanitize(req.body.book.authors);
+  req.body.book.publisher       = req.sanitize(req.body.book.publisher);
 
   req.checkBody('book[title]', 'Invalid Title').notEmpty().isLength({max: 250});
   req.checkBody('book[description]', 'Description is required').notEmpty();
@@ -44,20 +48,21 @@ router.post('/', middlewareObj.isLoggedIn, (req, res) => {
     'ISBN is required and must be 13 characters of digits').notEmpty()
     .isLength({max: 13, min: 13});
 
-    let errors = req.validationErrors();
-    if (errors) {
-      req.flash("error", errors[0]);
-      res.redirect("back");
-    }
+  let errors = req.validationErrors();
+  if (errors) {
+    req.flash("error", errors[0]);
+    res.redirect("back");
+  }
 
   let book = req.body.book;
   book.authors = book.authors.replace(', ', ',').split(',');
+  book.coverImage = req.file.location; //assuming the file upload with multer went okay
+  book.coverKey   = req.file.key;
 
   Book.create(book, (err, data) => {
     if(err) {
       console.log(err);
-      req.flash("error", "Can't create book");
-      req.flash("error", err.message);
+      req.flash("error", "failed to create book");
       res.redirect("back");
     } else {
       req.flash("success", data.title + " created");
@@ -120,6 +125,10 @@ router.put("/:id", middlewareObj.isLoggedIn , (req, res) => {
 
   let book = req.body.book;
   book.authors = book.authors.replace(', ', ',').split(',');
+  if (req.file && req.file.location) {
+    book.coverImage = req.file.location; //assuming the file upload with multer went okay
+    book.coverKey   = req.file.key;
+  }
 
   Book.findByIdAndUpdate(req.params.id, book, (err, data) => {
     if(err) {

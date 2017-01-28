@@ -46,6 +46,7 @@ var bookSchema = mongoose.Schema({
     required: true
   },
   coverImage: String,
+  coverKey: String,
   // since mongoose >= 4.x we can just use { timestamp: true},
   // but I need something to demosntrate using moongoose hooks so ..
   updated_at: Date,

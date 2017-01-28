@@ -2,7 +2,8 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-sm-12 col-md-3">
-        <img class="img-responsive" src="/images/default.png"
+        <img class="img-responsive"
+        src="<%= (book.coverImage) ? book.coverImage : '/images/default.png' %>"
         alt="<%= book.title %>'s cover">
       </div>
       <div class="col-sm-12 col-md-9">

@@ -20,7 +20,7 @@
   <div class="row">
     <div class="col-sm-8 col-sm-offset-2">
       <div class="container-fluid">
-        <form action="/books" method="POST">
+        <form action="/books" method="POST" enctype="multipart/form-data">
           <input type="hidden" name="_csrf" value="<%= csrf %>">
           <div class="form-group">
             <label for="title">Title</label>
@@ -68,6 +68,11 @@
             <label for="price">Price</label>
             <input type="number" class="form-control" id="price" name="book[price]"
             placeholder="sell price" min="0" step="0.01" required>
+          </div>
+          <div class="form-group">
+            <label for="coverImage">Cover Image</label>
+            <input type="file" class="form-control" id="file"
+            name="file" accept="image/*">
           </div>
           <div class="row">
             <div class="col-sm-6">

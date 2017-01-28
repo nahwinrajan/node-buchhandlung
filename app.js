@@ -15,6 +15,9 @@ var express         = require('express'),
     validator       = require('express-validator'),
     FileStreamRotator= require('file-stream-rotator'),
     fs              = require('fs'),
+    aws             = require('aws-sdk'),
+    multer          = require('multer'),
+    multerS3        = require('multer-s3');
     favicon         = require('serve-favicon');
     helmet          = require('helmet'),
     csrf            = require('csurf'),
@@ -27,7 +30,14 @@ var IndexRoutes           = require("./routes/index"),
 
 // variables - others
 var logDirectory  = path.join(__dirname, 'logs');
+const bucketName = 'jtm.iam.buchhandlung';
 
+aws.config.update({
+  accessKeyId: process.env.AWS_S3_ACCESS_KEY,
+  secretAccessKey: process.env.AWS_S3_SECRET_KEY,
+  region: "ap-southeast-1"
+});
+var s3 = new aws.S3();
 
 // app configuration
 app.set("view engine", "ejs");
@@ -56,6 +66,23 @@ app.use(expressSession({
   cookie: { maxAge: 60 * 60 * 1000 }
 }));
 app.use(flash());
+//due to an issue between csurf and multer, we must use multer before csurf
+// https://github.com/EthanRBrown/web-development-with-node-and-express/issues/53#issuecomment-205225650
+app.use(multer(
+  {
+    storage: multerS3({
+      s3,
+      bucket: bucketName,
+      key: function setObjKey(req, file, cb) {
+        cb(null, Date.now().toString()); //keyname must be unique
+      }
+    }),
+    limits: {
+      fileSize: 2000000,  //limit file size to be 2MB
+      files: 10,          //just be in safe side, limit file fields to 10
+    },
+  }
+).single('file'));
 //csurf relies on cookie/express-session therefore use it after initializing session middleware
 app.use(csrf());
 
@@ -99,9 +126,6 @@ app.use('/',      IndexRoutes);
 app.use('/books', BookRoutes);
 app.use('/users', UserRoutes);
 
-// Since this is the last non-error-handling
-// middleware use()d, we assume 404, as nothing else
-// responded.
 app.use(function(req, res, next) {
   res.status(404);
 
