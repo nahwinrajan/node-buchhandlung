@@ -31,3 +31,9 @@ buchhandlung mean bookstore in German. (well that is what google translate tell 
   - add to cart
   - checkout from cart - charge user with stripe payment gateway
   - user can see transaction history
+
+#Users
+- albus@example.com
+- sherlock@example.com
+- charlie@example.com
+- nikola@example.com

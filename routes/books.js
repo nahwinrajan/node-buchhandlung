@@ -73,13 +73,14 @@ router.post('/', middlewareObj.isLoggedIn, (req, res) => {
 
 // show particular book
 router.get('/:id', (req, res) => {
+  let showEditBtn = (req.user) ? true : false;
   Book.findById(req.params.id, function (err, data) {
     if (err) {
       console.log(err);
       req.flash("error", err.message);
       res.redirect("back");
     } else {
-      res.render("books/show", { book: data });
+      res.render("books/show", { book: data, showEditBtn  });
     }
   });
 });

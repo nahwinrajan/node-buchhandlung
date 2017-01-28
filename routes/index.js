@@ -121,9 +121,8 @@ router.post('/checkout', middlewareObj.isLoggedIn, (req, res) => {
       req.flash("error", err.message);
       res.redirect('/checkout');
     } else {
-      let stripe = require("stripe")(
-        "sk_test_ZPQR9df15JppXN2tJZY0E6HC"
-      );
+
+      let stripe = require("stripe")(process.env.STRIPE_TEST_KEY);
 
       stripe.charges.create({
         amount: req.session.cart.totalPrice * 100,

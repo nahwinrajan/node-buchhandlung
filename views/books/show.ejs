@@ -20,7 +20,23 @@
             <li class="list-group-item">Publish Date: <strong><%= book.publishDate.toDateString() %></strong></li>
           </ul>
           <div class="row">
-            <div class="col-sm-12 text-right">
+            <% if(showEditBtn) { %>
+              <div class="col-sm-6 text-left">
+                <a class="btn btn-warning" name="btn-add-to-cart"
+                data-id="<%= book.id %>"
+                href="/books/<%= book.id %>/edit">
+                  <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit
+                </a>
+                <span class="text-small">
+                  for demo purpose; there is no admin panel afterall.
+                </span>
+              </div>
+            <% } %>
+            <% if(showEditBtn) { %>
+            <div class=" col-sm-6 text-right">
+            <% } else { %>
+              <div class=" col-sm-12 text-right">
+            <% } %>
               <a class="btn btn-success" name="btn-add-to-cart"
               data-id="<%= book.id %>"
               href="/addtocart/<%= book.id %>?origin=/books/<%= book.id %>">

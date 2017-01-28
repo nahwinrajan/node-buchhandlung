@@ -87,7 +87,7 @@ app.use(multer(
 app.use(csrf());
 
 // db - configuration
-let dbUrl = process.env.DBURL || "mongodb://localhost/buchhandlung";
+let dbUrl = process.env.MLAB_BUCHHANDLUNG_URL || "mongodb://localhost/buchhandlung";
 mongoose.connect(dbUrl);
 // seedDB();
 
